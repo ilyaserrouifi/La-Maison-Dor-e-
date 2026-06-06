@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu — La Maison Dorée | Restaurant Gastronomique</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Montserrat:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-primary: #FDFBF7;
+      --bg-secondary: #F9F5EE;
+      --bg-card: #FFFFFF;
+      --gold: #C9A84C;
+      --gold-light: #E8D5A8;
+      --gold-dark: #B8922E;
+      --text-dark: #2C2418;
+      --text-soft: #5A4A3A;
+      --text-muted: #8B7A6B;
+      --accent: #D4A76A;
+      --border-light: #E8DDD0;
+      --font-title: 'Playfair Display', serif;
+      --font-body: 'Cormorant Garamond', serif;
+      --font-ui: 'Montserrat', sans-serif;
+    }
+
+    body {
+      background: var(--bg-primary);
+      color: var(--text-dark);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInLeft {
+      from { opacity: 0; transform: translateX(-40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes fadeInRight {
+      from { opacity: 0; transform: translateX(40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.8; }
+    }
+
+    /* Scroll Reveal */
+    .reveal { opacity: 0; transform: translateY(40px); transition: all 1s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-left { opacity: 0; transform: translateX(-40px); transition: all 1s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right { opacity: 0; transform: translateX(40px); transition: all 1s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+    /* Navbar */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 5rem;
+      transition: all 0.5s ease;
+      background: rgba(253, 251, 247, 0.98);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201, 168, 76, 0.2);
+    }
+
+    .nav-logo svg { display: block; }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      text-decoration: none;
+      position: relative;
+      transition: color 0.3s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 0;
+      height: 1.5px;
+      background: var(--gold);
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-links a.active { color: var(--gold); }
+
+    .nav-btn {
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1.5px solid var(--gold);
+      background: transparent;
+      padding: 0.7rem 1.8rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.4s ease;
+    }
+    .nav-btn:hover { background: var(--gold); color: white; }
+
+    /* Menu Header */
+    .menu-header {
+      padding: 12rem 4rem 6rem 4rem;
+      text-align: center;
+      background: linear-gradient(135deg, #FDFBF7 0%, #F9F5EE 50%, #FDFBF7 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .menu-header::before {
+      content: '🍽️';
+      position: absolute;
+      font-size: 18rem;
+      opacity: 0.05;
+      bottom: -6rem;
+      right: -6rem;
+      pointer-events: none;
+      animation: pulse 4s infinite;
+    }
+    .menu-header::after {
+      content: '🍷';
+      position: absolute;
+      font-size: 14rem;
+      opacity: 0.05;
+      top: -4rem;
+      left: -4rem;
+      pointer-events: none;
+      animation: pulse 4s infinite 2s;
+    }
+
+    .menu-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 2rem;
+      animation: fadeInUp 0.8s ease;
+    }
+    .menu-badge::before, .menu-badge::after {
+      content: '';
+      display: inline-block;
+      width: 50px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .menu-header h1 {
+      font-family: var(--font-title);
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 400;
+      color: var(--text-dark);
+      margin-bottom: 1.5rem;
+      animation: fadeInUp 0.8s ease 0.2s both;
+    }
+    .menu-header h1 em {
+      font-style: italic;
+      color: var(--gold);
+      font-weight: 600;
+    }
+    .menu-sub {
+      font-family: var(--font-body);
+      font-size: 1.2rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text-muted);
+      max-width: 650px;
+      margin: 0 auto;
+      animation: fadeInUp 0.8s ease 0.4s both;
+    }
+    .gold-divider {
+      width: 80px;
+      height: 2px;
+      background: var(--gold);
+      margin: 2rem auto;
+      animation: scaleIn 0.6s ease 0.6s both;
+    }
+
+    /* Category Tabs */
+    .category-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin: 4rem 2rem 2rem;
+    }
+    .tab-btn {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.9rem 2.2rem;
+      background: transparent;
+      border: 1px solid rgba(201, 168, 76, 0.3);
+      color: var(--text-soft);
+      cursor: pointer;
+      transition: all 0.4s ease;
+    }
+    .tab-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .tab-btn.active {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: white;
+    }
+
+    /* Menu Container */
+    .menu-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem 5rem 6rem;
+    }
+    .category-section { display: none; animation: fadeInUp 0.6s ease; }
+    .category-section.active { display: block; }
+
+    .category-title {
+      font-family: var(--font-title);
+      font-size: 2.5rem;
+      font-weight: 500;
+      color: var(--gold-dark);
+      text-align: center;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+    .category-title::after {
+      content: '';
+      display: block;
+      width: 100px;
+      height: 2px;
+      background: var(--gold);
+      margin: 1rem auto 0;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: 2.5rem;
+    }
+
+    /* Menu Card */
+    .menu-card {
+      background: var(--bg-card);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      border: 1px solid var(--border-light);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+      position: relative;
+      cursor: pointer;
+    }
+    .menu-card:hover {
+      transform: translateY(-12px);
+      border-color: var(--gold-light);
+      box-shadow: 0 30px 50px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-image {
+      position: relative;
+      height: 270px;
+      overflow: hidden;
+    }
+    .card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+    .menu-card:hover .card-image img { transform: scale(1.08); }
+
+    .card-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--gold);
+      color: white;
+      font-family: var(--font-ui);
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.4rem 1rem;
+      z-index: 2;
+    }
+    .card-badge.hot { background: #D4A76A; }
+    .card-badge.new { background: #7BA05B; }
+    .card-badge.chef { background: var(--gold-dark); }
+    .card-badge.veg { background: #9B8E6E; }
+
+    .card-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 70px;
+      background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+    }
+
+    .card-content { padding: 1.8rem; }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.8rem;
+      flex-wrap: wrap;
+    }
+    .card-header h3 {
+      font-family: var(--font-title);
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: var(--text-dark);
+      letter-spacing: -0.02em;
+    }
+    .price {
+      font-family: var(--font-title);
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--gold);
+    }
+    .description {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin: 0.8rem 0 1.2rem;
+    }
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.5rem;
+    }
+    .allergens {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .allergens span {
+      background: var(--bg-secondary);
+      padding: 0.2rem 0.6rem;
+      font-family: var(--font-ui);
+      font-size: 0.55rem;
+      color: var(--text-muted);
+      border-radius: 20px;
+    }
+    .order-btn {
+      background: transparent;
+      border: 1.5px solid var(--gold);
+      font-family: var(--font-ui);
+      font-size: 0.6rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      padding: 0.5rem 1.2rem;
+      color: var(--gold);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .order-btn:hover { background: var(--gold); color: white; }
+
+    /* Chef Section */
+    .chef-section {
+      background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+      padding: 5rem 4rem;
+      margin: 3rem 0;
+      border-top: 1px solid var(--border-light);
+      border-bottom: 1px solid var(--border-light);
+    }
+    .chef-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .chef-quote {
+      font-family: var(--font-title);
+      font-size: 1.8rem;
+      font-style: italic;
+      font-weight: 400;
+      color: var(--text-dark);
+      line-height: 1.5;
+      position: relative;
+    }
+    .chef-quote::before {
+      content: '"';
+      font-size: 6rem;
+      color: var(--gold);
+      opacity: 0.2;
+      position: absolute;
+      top: -2rem;
+      left: -1.5rem;
+      font-family: serif;
+    }
+    .chef-name {
+      margin-top: 1.5rem;
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .chef-image {
+      background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%);
+      height: 380px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .chef-image i { font-size: 9rem; color: rgba(255,255,255,0.9); }
+    .chef-image::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('https://images.pexels.com/photos/28839927/pexels-photo-28839927.jpeg?auto=compress&cs=tinysrgb&w=600');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.15;
+    }
+
+    /* Info Bar */
+    .info-bar {
+      background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%);
+      padding: 2.5rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 2rem;
+      text-align: center;
+    }
+    .info-item { flex: 1; min-width: 150px; }
+    .info-item i { font-size: 2rem; color: white; margin-bottom: 0.8rem; }
+    .info-item h4 {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: white;
+      margin-bottom: 0.5rem;
+    }
+    .info-item p {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: rgba(255,255,255,0.95);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--bg-secondary);
+      padding: 4rem 5rem 2rem;
+      border-top: 1px solid var(--border-light);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+    .footer-desc {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin: 1rem 0;
+    }
+    .footer-socials { display: flex; gap: 1rem; }
+    .footer-social {
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(201, 168, 76, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold-dim);
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .footer-social:hover { border-color: var(--gold); color: var(--gold); }
+    .footer-col h4 {
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 0.7rem; }
+    .footer-col ul a, .footer-col ul li {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .footer-col ul a:hover { color: var(--gold); }
+    .footer-bottom {
+      border-top: 1px solid var(--border-light);
+      padding-top: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-copy {
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+    }
+
+    /* Back to Top */
+    .back-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 500;
+      width: 48px;
+      height: 48px;
+      border: 1.5px solid var(--gold);
+      background: white;
+      color: var(--gold);
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      text-decoration: none;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.4s;
+    }
+    .back-top.visible { opacity: 1; transform: translateY(0); }
+    .back-top:hover { background: var(--gold); color: white; }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      nav { padding: 1rem 2rem; }
+      .menu-container { padding: 2rem 2rem 4rem; }
+      .chef-container { grid-template-columns: 1fr; gap: 2rem; text-align: center; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .nav-links, .nav-btn { display: none; }
+      .menu-header { padding: 10rem 1.5rem 4rem; }
+      .menu-container { padding: 1.5rem 1.5rem 3rem; }
+      .menu-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .info-bar { padding: 2rem 1.5rem; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="navbar">
+    <a href="index.html" class="nav-logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 60" width="190" height="52">
+        <g transform="translate(14, 30)">
+          <polyline points="-12,-14 0,-26 12,-14" fill="none" stroke="#C9A84C" stroke-width="1.5"/>
+          <line x1="-12" y1="-14" x2="-12" y2="4" stroke="#C9A84C" stroke-width="1.5"/>
+          <line x1="12" y1="-14" x2="12" y2="4" stroke="#C9A84C" stroke-width="1.5"/>
+          <line x1="-12" y1="4" x2="12" y2="4" stroke="#C9A84C" stroke-width="1.5"/>
+          <line x1="-5" y1="-6" x2="-5" y2="4" stroke="#C9A84C" stroke-width="1"/>
+          <line x1="5" y1="-6" x2="5" y2="4" stroke="#C9A84C" stroke-width="1"/>
+        </g>
+        <text x="52" y="26" font-family="'Cormorant Garamond', Georgia, serif" font-size="12" font-weight="400" letter-spacing="0.3em" fill="#5A4A3A">LA MAISON</text>
+        <text x="52" y="50" font-family="'Playfair Display', Georgia, serif" font-size="21" font-weight="700" font-style="italic" letter-spacing="0.05em" fill="#C9A84C">Dorée</text>
+        <polygon points="48,36 50,34 52,36 50,38" fill="#C9A84C" opacity="0.6"/>
+      </svg>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="menu.html" class="active">Menu</a></li>
+      <li><a href="galerie.html">Galerie</a></li>
+      <li><a href="about.html">À Propos</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="reservation.html" class="nav-btn">Réserver</a>
+  </nav>
+
+  <section class="menu-header">
+    <div class="menu-badge">🍽️ EXCELLENCE GASTRONOMIQUE 🍷</div>
+    <h1>Notre <em>Menu</em></h1>
+    <div class="gold-divider"></div>
+    <p class="menu-sub">Une symphonie de saveurs créée par notre Chef Étoilé, chaque plat raconte une histoire unique</p>
+  </section>
+
+  <div class="category-tabs">
+    <button class="tab-btn active" data-category="entrees">ENTRÉES</button>
+    <button class="tab-btn" data-category="plats">PLATS PRINCIPAUX</button>
+    <button class="tab-btn" data-category="desserts">DESSERTS</button>
+    <button class="tab-btn" data-category="boissons">BOISSONS</button>
+  </div>
+
+  <div class="menu-container">
+
+    <!-- ENTRÉES -->
+    <div class="category-section active" id="entrees">
+      <h2 class="category-title">Entrées d'Exception</h2>
+      <div class="menu-grid">
+        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Foie Gras"><div class="card-badge chef">CHEF'S CHOICE</div></div><div class="card-content"><div class="card-header"><h3>Foie Gras Poêlé</h3><span class="price">185 DH</span></div><p class="description">Foie gras frais poêlé, chutney de figues et miel, pain d'épices croustillant, fleur de sel de Guérande</p><div class="card-footer"><div class="allergens"><span>Œufs</span><span>Gluten</span><span>Lait</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/842571/pexels-photo-842571.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Saint-Jacques"><div class="card-badge hot">POPULAIRE</div></div><div class="card-content"><div class="card-header"><h3>Saint-Jacques Rôties</h3><span class="price">165 DH</span></div><p class="description">Noix de Saint-Jacques rôties, crème de potiron à la truffe noire, copeaux d'amandes torréfiées</p><div class="card-footer"><div class="allergens"><span>Fruits de mer</span><span>Lait</span><span>Noix</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Tartare Saumon"><div class="card-badge new">NOUVEAU</div></div><div class="card-content"><div class="card-header"><h3>Tartare de Saumon</h3><span class="price">145 DH</span></div><p class="description">Saumon frais coupé au couteau, avocat crémeux, mangue, sésame toasté, sauce yuzu maison</p><div class="card-footer"><div class="allergens"><span>Poisson</span><span>Sésame</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/260922/pexels-photo-260922.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Escargots"></div><div class="card-content"><div class="card-header"><h3>Escargots de Bourgogne</h3><span class="price">125 DH</span></div><p class="description">12 escargots au beurre persillé maison, ail confit, chapelure dorée, persil plat</p><div class="card-footer"><div class="allergens"><span>Ail</span><span>Gluten</span><span>Lait</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Burrata"></div><div class="card-content"><div class="card-header"><h3>Burrata Crémeuse</h3><span class="price">150 DH</span></div><p class="description">Burrata bio des Pouilles, tomates anciennes, pesto de basilic frais, réduction balsamique vieillie</p><div class="card-footer"><div class="allergens"><span>Lait</span><span>Noix</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/699953/pexels-photo-699953.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Carpaccio"><div class="card-badge chef">SIGNATURE</div></div><div class="card-content"><div class="card-header"><h3>Carpaccio de Bœuf</h3><span class="price">160 DH</span></div><p class="description">Carpaccio de bœuf façon Wagyu, parmesan 36 mois, roquette, citron truffé, huile d'olive</p><div class="card-footer"><div class="allergens"><span>Lait</span><span>Moutarde</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+      </div>
+    </div>
+
+    <!-- PLATS -->
+    <div class="category-section" id="plats">
+      <h2 class="category-title">Plats Principaux</h2>
+      <div class="menu-grid">
+        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/3186654/pexels-photo-3186654.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Wagyu"><div class="card-badge chef">CHEF'S CHOICE</div></div><div class="card-content"><div class="card-header"><h3>Filet de Bœuf Wagyu</h3><span class="price">350 DH</span></div><p class="description">Filet de bœuf japonais A5, sauce périgueux, purée de pommes de terre truffée, légumes rôtis</p><div class="card-footer"><div class="allergens"><span>Lait</span><span>Gluten</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/2606897/pexels-photo-2606897.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Canard"></div><div class="card-content"><div class="card-header"><h3>Magret de Canard</h3><span class="price">240 DH</span></div><p class="description">Magret de canard rôti, sauce au miel de lavande et épices, pommes grenailles confites</p><div class="card-footer"><div class="allergens"><span>Miel</span><span>Moutarde</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Bar"><div class="card-badge hot">POPULAIRE</div></div><div class="card-content"><div class="card-header"><h3>Bar en Croûte</h3><span class="price">210 DH</span></div><p class="description">Bar entier en croûte de sel, écrasé de pommes de terre à l'huile d'olive, beurre blanc safrané</p><div class="card-footer"><div class="allergens"><span>Poisson</span><span>Gluten</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/1322184/pexels-photo-1322184.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Agneau"></div><div class="card-content"><div class="card-header"><h3>Carré d'Agneau</h3><span class="price">265 DH</span></div><p class="description">Carré d'agneau de lait rôti, crumble d'herbes, tian de légumes provençal, jus corsé</p><div class="card-footer"><div class="allergens"><span>Ail</span><span>Moutarde</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/262918/pexels-photo-262918.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Risotto"><div class="card-badge veg">VÉGÉTARIEN</div></div><div class="card-content"><div class="card-header"><h3>Risotto aux Truffes</h3><span class="price">195 DH</span></div><p class="description">Risotto crémeux aux champignons des bois, truffe noire râpée, parmesan 36 mois d'affinage</p><div class="card-footer"><div class="allergens"><span>Lait</span><span>Gluten</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/4033608/pexels-photo-4033608.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Lotte"></div><div class="card-content"><div class="card-header"><h3>Queue de Lotte</h3><span class="price">225 DH</span></div><p class="description">Queue de lotte rôtie, sauce champagne, purée de céleri-rave, tuile croustillante au sésame</p><div class="card-footer"><div class="allergens"><span>Poisson</span><span>Lait</span><span>Œufs</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+      </div>
+    </div>
+
+    <!-- DESSERTS -->
+    <div class="category-section" id="desserts">
+      <h2 class="category-title">Desserts Exquis</h2>
+      <div class="menu-grid">
+        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/3020919/pexels-photo-3020919.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Soufflé"><div class="card-badge chef">SIGNATURE</div></div><div class="card-content"><div class="card-header"><h3>Soufflé Grand Marnier</h3><span class="price">110 DH</span></div><p class="description">Soufflé aérien au Grand Marnier, crème anglaise à la vanille de Madagascar</p><div class="card-footer"><div class="allergens"><span>Œufs</span><span>Lait</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/1854652/pexels-photo-1854652.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Fondant"></div><div class="card-content"><div class="card-header"><h3>Fondant au Chocolat</h3><span class="price">95 DH</span></div><p class="description">Cœur coulant au chocolat noir 70% Guanaja, glace vanille maison, éclats de noisettes caramélisées</p><div class="card-footer"><div class="allergens"><span>Œufs</span><span>Lait</span><span>Noisettes</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/3020918/pexels-photo-3020918.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Île Flottante"></div><div class="card-content"><div class="card-header"><h3>Île Flottante</h3><span class="price">85 DH</span></div><p class="description">Meringue légère, crème anglaise à la vanille Bourbon, caramel beurre salé, amandes effilées</p><div class="card-footer"><div class="allergens"><span>Œufs</span><span>Lait</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/1099680/pexels-photo-1099680.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Tarte Tatin"><div class="card-badge hot">POPULAIRE</div></div><div class="card-content"><div class="card-header"><h3>Tarte Tatin</h3><span class="price">90 DH</span></div><p class="description">Tarte renversée aux pommes caramélisées, glace vanille, crème fraîche épaisse</p><div class="card-footer"><div class="allergens"><span>Gluten</span><span>Lait</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Millefeuille"></div><div class="card-content"><div class="card-header"><h3>Millefeuille Vanille</h3><span class="price">100 DH</span></div><p class="description">Pâte feuilletée croustillante, crème pâtissière à la vanille, sucre glace, framboises fraîches</p><div class="card-footer"><div class="allergens"><span>Gluten</span><span>Lait</span><span>Œufs</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/1114681/pexels-photo-1114681.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Crème Brûlée"><div class="card-badge new">NOUVEAU</div></div><div class="card-content"><div class="card-header"><h3>Crème Brûlée</h3><span class="price">90 DH</span></div><p class="description">Crème onctueuse à la vanille, caramel croustillant, fruits rouges et coulis de passion</p><div class="card-footer"><div class="allergens"><span>Lait</span><span>Œufs</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+      </div>
+    </div>
+
+    <!-- BOISSONS -->
+    <div class="category-section" id="boissons">
+      <h2 class="category-title">Cave & Mixologie</h2>
+      <div class="menu-grid">
+        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/1283219/pexels-photo-1283219.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Champagne"></div><div class="card-content"><div class="card-header"><h3>Champagne Brut</h3><span class="price">140 DH</span></div><p class="description">Moët & Chandon Impérial, notes d'agrumes, de brioche et de pomme verte</p><div class="card-footer"><div class="allergens"><span>Sulfites</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/543525/pexels-photo-543525.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Vin Rouge"><div class="card-badge chef">GRAND CRU</div></div><div class="card-content"><div class="card-header"><h3>Château Margaux</h3><span class="price">550 DH</span></div><p class="description">Grand cru classé 2015, arômes de fruits noirs, de réglisse et d'épices douces</p><div class="card-footer"><div class="allergens"><span>Sulfites</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/1283240/pexels-photo-1283240.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Vin Blanc"></div><div class="card-content"><div class="card-header"><h3>Sancerre Blanc</h3><span class="price">220 DH</span></div><p class="description">Vin minéral et frais, arômes d'agrumes, de fleurs blanches et de pierre à fusil</p><div class="card-footer"><div class="allergens"><span>Sulfites</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/1283241/pexels-photo-1283241.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Cocktail"></div><div class="card-content"><div class="card-header"><h3>Signature Cocktail</h3><span class="price">110 DH</span></div><p class="description">Gin artisanal, fleur de sureau, concombre, citron vert, eau pétillante, glaçon</p><div class="card-footer"><div class="allergens"><span>Alcool</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/1248585/pexels-photo-1248585.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Jus"></div><div class="card-content"><div class="card-header"><h3>Jus Détox Maison</h3><span class="price">55 DH</span></div><p class="description">Carotte, gingembre frais, orange sanguine, curcuma, miel d'acacia</p><div class="card-footer"><div class="allergens"><span>Sans allergènes</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/1298694/pexels-photo-1298694.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Thé"></div><div class="card-content"><div class="card-header"><h3>Thé Grand Cru</h3><span class="price">45 DH</span></div><p class="description">Thé noir de Ceylan, bergamote, pétales de fleurs, oranges confites</p><div class="card-footer"><div class="allergens"><span>Sans allergènes</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chef-section">
+    <div class="chef-container">
+      <div class="chef-quote reveal-left">
+        "La cuisine est l'art d'éveiller les souvenirs et de créer des émotions. Chaque plat que nous servons raconte une histoire unique."
+        <div class="chef-name">— Chef Abdellatif Bennani, Meilleur Ouvrier de France</div>
+      </div>
+      <div class="chef-image reveal-right"><i class="fas fa-chef-hat"></i></div>
+    </div>
+  </div>
+
+  <div class="info-bar">
+    <div class="info-item"><i class="fas fa-clock"></i><h4>Horaires d'Ouverture</h4><p>Mardi - Dimanche | 12h00 - 23h00</p></div>
+    <div class="info-item"><i class="fas fa-map-marker-alt"></i><h4>Adresse</h4><p>Casablanca, Maroc</p></div>
+    <div class="info-item"><i class="fas fa-phone"></i><h4>Réservation</h4><p>+212 5XX XXX XXX</p></div>
+    <div class="info-item"><i class="fas fa-tag"></i><h4>Prix Moyens</h4><p>Entrée 150DH | Plat 240DH</p></div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 60" width="170" height="48">
+          <g transform="translate(14, 30)"><polyline points="-12,-14 0,-26 12,-14" fill="none" stroke="#C9A84C" stroke-width="1.3"/><line x1="-12" y1="-14" x2="-12" y2="4" stroke="#C9A84C" stroke-width="1.3"/><line x1="12" y1="-14" x2="12" y2="4" stroke="#C9A84C" stroke-width="1.3"/><line x1="-12" y1="4" x2="12" y2="4" stroke="#C9A84C" stroke-width="1.3"/></g>
+          <text x="52" y="26" font-family="'Cormorant Garamond', Georgia, serif" font-size="11" font-weight="400" letter-spacing="0.3em" fill="#8B7A6B">LA MAISON</text>
+          <text x="52" y="50" font-family="'Playfair Display', Georgia, serif" font-size="19" font-weight="700" font-style="italic" letter-spacing="0.05em" fill="#C9A84C">Dorée</text>
+        </svg>
+        <p class="footer-desc">Une expérience gastronomique unique au cœur de la ville. Chaque plat, une histoire. Chaque visite, un souvenir inoubliable.</p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="footer-social"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="footer-social"><i class="fab fa-tiktok"></i></a>
+          <a href="#" class="footer-social"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Navigation</h4><ul><li><a href="index.html">Accueil</a></li><li><a href="menu.html">Notre Menu</a></li><li><a href="galerie.html">Galerie</a></li><li><a href="about.html">À Propos</a></li><li><a href="reservation.html">Réservation</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="footer-col"><h4>Horaires</h4><ul><li>Mardi – Jeudi</li><li style="color:#C9A84C;">12h00 – 23h00</li><li>Vendredi – Dimanche</li><li style="color:#C9A84C;">11h00 – 00h00</li><li>Lundi fermé</li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><i class="fas fa-map-marker-alt" style="color:#C9A84C;margin-right:8px"></i>Casablanca, Maroc</li><li><i class="fas fa-phone" style="color:#C9A84C;margin-right:8px"></i>+212 5XX XXX XXX</li><li><i class="fas fa-envelope" style="color:#C9A84C;margin-right:8px"></i>contact@maisondoree.ma</li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 La Maison Dorée — Tous droits réservés</span>
+      <span class="footer-copy">Fait avec ❤️ au Maroc</span>
+    </div>
+  </footer>
+
+  <a href="#" class="back-top" id="backTop"><i class="fas fa-chevron-up"></i></a>
+
+  <script>
+    const backTop = document.getElementById('backTop');
+    window.addEventListener('scroll', () => backTop.classList.toggle('visible', window.scrollY > 60));
+    backTop.addEventListener('click', (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const sections = { entrees: document.getElementById('entrees'), plats: document.getElementById('plats'), desserts: document.getElementById('desserts'), boissons: document.getElementById('boissons') };
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const category = btn.dataset.category;
+        tabBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        Object.values(sections).forEach(s => s?.classList.remove('active'));
+        if (sections[category]) sections[category].classList.add('active');
+        document.querySelector('.menu-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+    const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: 0.1 });
+    revealElements.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
