@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Réservation — La Maison Dorée | Restaurant Gastronomique</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Montserrat:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-primary: #FDFBF7;
+      --bg-secondary: #F9F5EE;
+      --bg-card: #FFFFFF;
+      --gold: #C9A84C;
+      --gold-light: #E8D5A8;
+      --gold-dark: #B8922E;
+      --text-dark: #2C2418;
+      --text-soft: #5A4A3A;
+      --text-muted: #8B7A6B;
+      --accent: #D4A76A;
+      --border-light: #E8DDD0;
+      --success: #4CAF50;
+      --error: #E25822;
+      --font-title: 'Playfair Display', serif;
+      --font-body: 'Cormorant Garamond', serif;
+      --font-ui: 'Montserrat', sans-serif;
+    }
+
+    body {
+      background: var(--bg-primary);
+      color: var(--text-dark);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInScale {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.05); }
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+    @keyframes confetti {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* ===== SCROLL REVEAL ===== */
+    .reveal { opacity: 0; transform: translateY(40px); transition: all 1s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-left { opacity: 0; transform: translateX(-40px); transition: all 1s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right { opacity: 0; transform: translateX(40px); transition: all 1s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+    .reveal-scale { opacity: 0; transform: scale(0.9); transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+    .reveal-scale.visible { opacity: 1; transform: scale(1); }
+
+    /* ===== NAVBAR ===== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 5rem;
+      transition: all 0.5s ease;
+      background: rgba(253, 251, 247, 0.98);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201, 168, 76, 0.2);
+    }
+
+    .nav-logo svg { display: block; }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      text-decoration: none;
+      position: relative;
+      transition: color 0.3s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 0;
+      height: 1.5px;
+      background: var(--gold);
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-links a.active { color: var(--gold); }
+
+    .nav-btn {
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1.5px solid var(--gold);
+      background: transparent;
+      padding: 0.7rem 1.8rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.4s ease;
+    }
+    .nav-btn:hover { background: var(--gold); color: white; }
+
+    /* ===== HEADER ===== */
+    .reservation-header {
+      padding: 12rem 4rem 5rem 4rem;
+      text-align: center;
+      background: linear-gradient(135deg, #FDFBF7 0%, #F9F5EE 50%, #FDFBF7 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .reservation-header::before {
+      content: '🗓️';
+      position: absolute;
+      font-size: 18rem;
+      opacity: 0.04;
+      bottom: -6rem;
+      right: -6rem;
+      pointer-events: none;
+      animation: pulse 4s infinite;
+    }
+    .reservation-header::after {
+      content: '🍽️';
+      position: absolute;
+      font-size: 14rem;
+      opacity: 0.04;
+      top: -4rem;
+      left: -4rem;
+      pointer-events: none;
+      animation: pulse 4s infinite 2s;
+    }
+    .reservation-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 2rem;
+      animation: fadeInUp 0.8s ease;
+    }
+    .reservation-badge::before, .reservation-badge::after {
+      content: '';
+      display: inline-block;
+      width: 50px;
+      height: 1px;
+      background: var(--gold);
+    }
+    .reservation-header h1 {
+      font-family: var(--font-title);
+      font-size: clamp(3rem, 7vw, 5rem);
+      font-weight: 400;
+      color: var(--text-dark);
+      margin-bottom: 1.5rem;
+      animation: fadeInUp 0.8s ease 0.2s both;
+    }
+    .reservation-header h1 em {
+      font-style: italic;
+      color: var(--gold);
+      font-weight: 600;
+    }
+    .reservation-sub {
+      font-family: var(--font-body);
+      font-size: 1.2rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text-muted);
+      max-width: 650px;
+      margin: 0 auto;
+      animation: fadeInUp 0.8s ease 0.4s both;
+    }
+    .gold-divider {
+      width: 80px;
+      height: 2px;
+      background: var(--gold);
+      margin: 2rem auto;
+      animation: fadeInScale 0.6s ease 0.6s both;
+    }
+
+    /* ===== RESERVATION CONTAINER ===== */
+    .reservation-container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 3rem 4rem 6rem;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 4rem;
+    }
+
+    /* ===== INFO SECTION ===== */
+    .info-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      padding: 2rem;
+      animation: slideInLeft 0.8s ease;
+    }
+    .info-title {
+      font-family: var(--font-title);
+      font-size: 1.8rem;
+      font-weight: 500;
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
+    }
+    .info-title span {
+      color: var(--gold);
+      font-style: italic;
+    }
+    .info-divider {
+      width: 50px;
+      height: 2px;
+      background: var(--gold);
+      margin: 1rem 0 2rem;
+    }
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.8rem;
+      padding: 0.5rem;
+      transition: all 0.3s;
+    }
+    .info-item:hover {
+      background: var(--bg-secondary);
+      transform: translateX(5px);
+    }
+    .info-icon {
+      width: 50px;
+      height: 50px;
+      background: var(--bg-secondary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      color: var(--gold);
+    }
+    .info-text h4 {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.3rem;
+    }
+    .info-text p {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--text-dark);
+    }
+    .hours-table {
+      margin-top: 2rem;
+      border-top: 1px solid var(--border-light);
+      padding-top: 1.5rem;
+    }
+    .hours-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.6rem 0;
+      border-bottom: 1px dashed var(--border-light);
+    }
+    .hours-row span:first-child {
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .hours-row span:last-child {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      color: var(--text-dark);
+      font-weight: 500;
+    }
+    .map-img {
+      margin-top: 2rem;
+      width: 100%;
+      height: 200px;
+      background: url('https://images.pexels.com/photos/258117/pexels-photo-258117.jpeg?auto=compress&cs=tinysrgb&w=600');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+    .map-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(201, 168, 76, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+    .map-overlay:hover {
+      background: rgba(201, 168, 76, 0.4);
+    }
+    .map-overlay i {
+      font-size: 2rem;
+      color: white;
+    }
+
+    /* ===== FORM SECTION ===== */
+    .form-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      padding: 2rem;
+      animation: slideInRight 0.8s ease;
+    }
+    .form-title {
+      font-family: var(--font-title);
+      font-size: 1.8rem;
+      font-weight: 500;
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
+    }
+    .form-subtitle {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    label {
+      display: block;
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      margin-bottom: 0.5rem;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      border: 1px solid var(--border-light);
+      background: var(--bg-primary);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--text-dark);
+      transition: all 0.3s;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.1);
+    }
+    input.error, select.error, textarea.error {
+      border-color: var(--error);
+      animation: shake 0.3s ease;
+    }
+    .error-msg {
+      color: var(--error);
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      margin-top: 0.3rem;
+      display: none;
+    }
+    .error-msg.show {
+      display: block;
+    }
+    .special-requests {
+      resize: vertical;
+      min-height: 100px;
+    }
+    .submit-btn {
+      width: 100%;
+      background: var(--gold);
+      border: none;
+      padding: 1.2rem;
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: white;
+      cursor: pointer;
+      transition: all 0.4s;
+      margin-top: 1rem;
+    }
+    .submit-btn:hover {
+      background: var(--gold-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .note {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      color: var(--text-muted);
+    }
+    .note i {
+      color: var(--gold);
+    }
+
+    /* ===== SUCCESS MODAL ===== */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s;
+    }
+    .modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal-content {
+      background: var(--bg-card);
+      max-width: 450px;
+      width: 90%;
+      padding: 2.5rem;
+      text-align: center;
+      animation: fadeInScale 0.4s ease;
+    }
+    .modal-icon {
+      font-size: 4rem;
+      color: var(--success);
+      margin-bottom: 1rem;
+    }
+    .modal-title {
+      font-family: var(--font-title);
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .modal-text {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+    .modal-btn {
+      background: var(--gold);
+      border: none;
+      padding: 0.8rem 2rem;
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: white;
+      cursor: pointer;
+    }
+
+    /* ===== SPECIAL OFFERS ===== */
+    .offers-section {
+      background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+      padding: 4rem;
+      margin: 2rem 0;
+      border-top: 1px solid var(--border-light);
+      border-bottom: 1px solid var(--border-light);
+    }
+    .offers-title {
+      text-align: center;
+      font-family: var(--font-title);
+      font-size: 2rem;
+      font-weight: 400;
+      margin-bottom: 3rem;
+    }
+    .offers-title span {
+      color: var(--gold);
+      font-style: italic;
+    }
+    .offers-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .offer-card {
+      background: var(--bg-card);
+      padding: 2rem;
+      text-align: center;
+      border: 1px solid var(--border-light);
+      transition: all 0.3s;
+    }
+    .offer-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--gold-light);
+    }
+    .offer-card i {
+      font-size: 2.5rem;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+    .offer-card h3 {
+      font-family: var(--font-title);
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+    .offer-card p {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* ===== FAQ SECTION ===== */
+    .faq-section {
+      padding: 4rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .faq-title {
+      text-align: center;
+      font-family: var(--font-title);
+      font-size: 2rem;
+      font-weight: 400;
+      margin-bottom: 3rem;
+    }
+    .faq-item {
+      border-bottom: 1px solid var(--border-light);
+      margin-bottom: 1rem;
+    }
+    .faq-question {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      cursor: pointer;
+      font-family: var(--font-title);
+      font-size: 1.1rem;
+    }
+    .faq-question i {
+      color: var(--gold);
+      transition: transform 0.3s;
+    }
+    .faq-question.active i {
+      transform: rotate(180deg);
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+      padding: 0;
+      font-family: var(--font-body);
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .faq-answer.show {
+      max-height: 200px;
+      padding-bottom: 1rem;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--bg-secondary);
+      padding: 4rem 5rem 2rem;
+      border-top: 1px solid var(--border-light);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+    .footer-desc {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin: 1rem 0;
+    }
+    .footer-socials { display: flex; gap: 1rem; }
+    .footer-social {
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(201, 168, 76, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold-dim);
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .footer-social:hover { border-color: var(--gold); color: var(--gold); }
+    .footer-col h4 {
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 0.7rem; }
+    .footer-col ul a, .footer-col ul li {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .footer-col ul a:hover { color: var(--gold); }
+    .footer-bottom {
+      border-top: 1px solid var(--border-light);
+      padding-top: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-copy {
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+    }
+    .back-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 500;
+      width: 48px;
+      height: 48px;
+      border: 1.5px solid var(--gold);
+      background: white;
+      color: var(--gold);
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      text-decoration: none;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.4s;
+    }
+    .back-top.visible { opacity: 1; transform: translateY(0); }
+    .back-top:hover { background: var(--gold); color: white; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      nav { padding: 1rem 2rem; }
+      .reservation-container { grid-template-columns: 1fr; padding: 2rem; }
+      .offers-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .nav-links, .nav-btn { display: none; }
+      .reservation-header { padding: 10rem 1.5rem 4rem; }
+      .reservation-container { padding: 1.5rem; }
+      .form-row { grid-template-columns: 1fr; gap: 1rem; }
+      .offers-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="navbar">
+    <a href="index.html" class="nav-logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 60" width="190" height="52">
+        <g transform="translate(14, 30)">
+          <polyline points="-12,-14 0,-26 12,-14" fill="none" stroke="#C9A84C" stroke-width="1.5"/>
+          <line x1="-12" y1="-14" x2="-12" y2="4" stroke="#C9A84C" stroke-width="1.5"/>
+          <line x1="12" y1="-14" x2="12" y2="4" stroke="#C9A84C" stroke-width="1.5"/>
+          <line x1="-12" y1="4" x2="12" y2="4" stroke="#C9A84C" stroke-width="1.5"/>
+          <line x1="-5" y1="-6" x2="-5" y2="4" stroke="#C9A84C" stroke-width="1"/>
+          <line x1="5" y1="-6" x2="5" y2="4" stroke="#C9A84C" stroke-width="1"/>
+        </g>
+        <text x="52" y="26" font-family="'Cormorant Garamond', Georgia, serif" font-size="12" font-weight="400" letter-spacing="0.3em" fill="#5A4A3A">LA MAISON</text>
+        <text x="52" y="50" font-family="'Playfair Display', Georgia, serif" font-size="21" font-weight="700" font-style="italic" letter-spacing="0.05em" fill="#C9A84C">Dorée</text>
+        <polygon points="48,36 50,34 52,36 50,38" fill="#C9A84C" opacity="0.6"/>
+      </svg>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="galerie.html">Galerie</a></li>
+      <li><a href="about.html">À Propos</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="reservation.html" class="nav-btn">Réserver</a>
+  </nav>
+
+  <section class="reservation-header">
+    <div class="reservation-badge">🗓️ RÉSERVEZ VOTRE TABLE 🍽️</div>
+    <h1>Réservez <em>votre expérience</em></h1>
+    <div class="gold-divider"></div>
+    <p class="reservation-sub">Offrez-vous un moment d'exception dans notre cadre d'exception</p>
+  </section>
+
+  <div class="reservation-container">
+    <div class="info-section reveal-left">
+      <h2 class="info-title">Informations <span>pratiques</span></h2>
+      <div class="info-divider"></div>
+      
+      <div class="info-item">
+        <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+        <div class="info-text"><h4>Adresse</h4><p>Casablanca, Maroc</p></div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon"><i class="fas fa-phone"></i></div>
+        <div class="info-text"><h4>Téléphone</h4><p>+212 5XX XXX XXX</p></div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon"><i class="fas fa-envelope"></i></div>
+        <div class="info-text"><h4>Email</h4><p>reservation@maisondoree.ma</p></div>
+      </div>
+      
+      <div class="hours-table">
+        <div class="hours-row"><span>Mardi - Jeudi</span><span>12h00 - 23h00</span></div>
+        <div class="hours-row"><span>Vendredi - Dimanche</span><span>11h00 - 00h00</span></div>
+        <div class="hours-row"><span>Lundi</span><span>Fermé</span></div>
+        <div class="hours-row"><span>Dernière commande</span><span>30 min avant fermeture</span></div>
+      </div>
+      
+      <div class="map-img">
+        <div class="map-overlay"><i class="fas fa-location-dot"></i></div>
+      </div>
+    </div>
+
+    <div class="form-section reveal-right">
+      <h2 class="form-title">Formulaire de <span>réservation</span></h2>
+      <p class="form-subtitle">Veuillez remplir tous les champs ci-dessous</p>
+      
+      <form id="reservationForm">
+        <div class="form-row">
+          <div class="form-group"><label><i class="fas fa-user"></i> Prénom</label><input type="text" id="prenom" placeholder="Votre prénom"></div>
+          <div class="form-group"><label><i class="fas fa-user"></i> Nom</label><input type="text" id="nom" placeholder="Votre nom"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label><i class="fas fa-envelope"></i> Email</label><input type="email" id="email" placeholder="votre@email.com"></div>
+          <div class="form-group"><label><i class="fas fa-phone"></i> Téléphone</label><input type="tel" id="telephone" placeholder="+212 XXX XXX XXX"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label><i class="fas fa-calendar"></i> Date d'arrivée</label><input type="date" id="date"></div>
+          <div class="form-group"><label><i class="fas fa-clock"></i> Heure</label><select id="heure"><option>12h00</option><option>12h30</option><option>13h00</option><option>13h30</option><option>14h00</option><option>18h00</option><option>18h30</option><option>19h00</option><option>19h30</option><option>20h00</option><option>20h30</option><option>21h00</option><option>21h30</option><option>22h00</option></select></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label><i class="fas fa-users"></i> Nombre de personnes</label><select id="personnes"><option>1 personne</option><option>2 personnes</option><option>3 personnes</option><option>4 personnes</option><option>5 personnes</option><option>6 personnes</option><option>7 personnes</option><option>8 personnes</option><option>9 personnes</option><option>10 personnes</option><option>10+ personnes</option></select></div>
+          <div class="form-group"><label><i class="fas fa-chair"></i> Type de table</label><select id="typeTable"><option>Salle principale</option><option>Terrasse</option><option>Salon privé</option><option>Bar à vin</option></select></div>
+        </div>
+        <div class="form-group"><label><i class="fas fa-comment"></i> Demande spéciale</label><textarea id="message" class="special-requests" placeholder="Allergies, occasion spéciale, préférences..."></textarea></div>
+        <button type="submit" class="submit-btn"><i class="fas fa-check-circle"></i> Confirmer ma réservation</button>
+        <p class="note"><i class="fas fa-info-circle"></i> Un email de confirmation vous sera envoyé sous 24h</p>
+      </form>
+    </div>
+  </div>
+
+  <div class="offers-section">
+    <h2 class="offers-title">Nos <span>offres spéciales</span></h2>
+    <div class="offers-grid">
+      <div class="offer-card reveal"><i class="fas fa-heart"></i><h3>Menu Dégustation</h3><p>5 plats signature à 295DH</p></div>
+      <div class="offer-card reveal"><i class="fas fa-wine-bottle"></i><h3>Dîner aux chandelles</h3><p>-15% sur l'addition pour 2</p></div>
+      <div class="offer-card reveal"><i class="fas fa-birthday-cake"></i><h3>Anniversaire</h3><p>Gratuité du dessert</p></div>
+    </div>
+  </div>
+
+  <div class="faq-section">
+    <h2 class="faq-title">Questions <span>fréquentes</span></h2>
+    <div class="faq-item"><div class="faq-question">Comment modifier ou annuler ma réservation ? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Vous pouvez modifier ou annuler votre réservation jusqu'à 2h avant l'horaire prévu en nous contactant par téléphone.</div></div>
+    <div class="faq-item"><div class="faq-question">Acceptez-vous les régimes alimentaires particuliers ? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Oui, veuillez le préciser dans la demande spéciale, notre chef s'adaptera à vos besoins.</div></div>
+    <div class="faq-item"><div class="faq-question">Puis-je réserver pour un groupe de plus de 10 personnes ? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Oui, contactez-nous directement pour les groupes, nous vous offrons un menu personnalisé.</div></div>
+    <div class="faq-item"><div class="faq-question">Y a-t-il un dress code ? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Une tenue élégante est recommandée (habillée chic).</div></div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 60" width="170" height="48">
+          <g transform="translate(14, 30)"><polyline points="-12,-14 0,-26 12,-14" fill="none" stroke="#C9A84C" stroke-width="1.3"/><line x1="-12" y1="-14" x2="-12" y2="4" stroke="#C9A84C" stroke-width="1.3"/><line x1="12" y1="-14" x2="12" y2="4" stroke="#C9A84C" stroke-width="1.3"/><line x1="-12" y1="4" x2="12" y2="4" stroke="#C9A84C" stroke-width="1.3"/></g>
+          <text x="52" y="26" font-family="'Cormorant Garamond', Georgia, serif" font-size="11" font-weight="400" letter-spacing="0.3em" fill="#8B7A6B">LA MAISON</text>
+          <text x="52" y="50" font-family="'Playfair Display', Georgia, serif" font-size="19" font-weight="700" font-style="italic" letter-spacing="0.05em" fill="#C9A84C">Dorée</text>
+        </svg>
+        <p class="footer-desc">Une expérience gastronomique unique au cœur de la ville. Chaque plat, une histoire.</p>
+        <div class="footer-socials"><a href="#" class="footer-social"><i class="fab fa-instagram"></i></a><a href="#" class="footer-social"><i class="fab fa-facebook-f"></i></a><a href="#" class="footer-social"><i class="fab fa-tiktok"></i></a><a href="#" class="footer-social"><i class="fab fa-whatsapp"></i></a></div>
+      </div>
+      <div class="footer-col"><h4>Navigation</h4><ul><li><a href="index.html">Accueil</a></li><li><a href="menu.html">Notre Menu</a></li><li><a href="galerie.html">Galerie</a></li><li><a href="about.html">À Propos</a></li><li><a href="reservation.html">Réservation</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="footer-col"><h4>Horaires</h4><ul><li>Mardi – Jeudi</li><li style="color:#C9A84C;">12h00 – 23h00</li><li>Vendredi – Dimanche</li><li style="color:#C9A84C;">11h00 – 00h00</li><li>Lundi fermé</li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><i class="fas fa-map-marker-alt" style="color:#C9A84C;margin-right:8px"></i>Casablanca, Maroc</li><li><i class="fas fa-phone" style="color:#C9A84C;margin-right:8px"></i>+212 5XX XXX XXX</li><li><i class="fas fa-envelope" style="color:#C9A84C;margin-right:8px"></i>contact@maisondoree.ma</li></ul></div>
+    </div>
+    <div class="footer-bottom"><span class="footer-copy">© 2026 La Maison Dorée — Tous droits réservés</span><span class="footer-copy">Fait avec ❤️ au Maroc</span></div>
+  </footer>
+
+  <a href="#" class="back-top" id="backTop"><i class="fas fa-chevron-up"></i></a>
+
+  <!-- Modal -->
+  <div class="modal" id="successModal">
+    <div class="modal-content"><div class="modal-icon"><i class="fas fa-check-circle"></i></div><h3 class="modal-title">Réservation confirmée !</h3><p class="modal-text">Merci ! Vous recevrez un email de confirmation sous 24h.</p><button class="modal-btn" id="closeModal">Fermer</button></div>
+  </div>
+
+  <script>
+    // Back to top
+    const backTop = document.getElementById('backTop');
+    window.addEventListener('scroll', () => backTop.classList.toggle('visible', window.scrollY > 60));
+    backTop.addEventListener('click', (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
+    // Scroll reveal
+    const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+    const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: 0.1 });
+    revealElements.forEach(el => observer.observe(el));
+
+    // FAQ Accordion
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    faqQuestions.forEach(q => {
+      q.addEventListener('click', () => {
+        q.classList.toggle('active');
+        const answer = q.nextElementSibling;
+        answer.classList.toggle('show');
+      });
+    });
+
+    // Form validation
+    const form = document.getElementById('reservationForm');
+    const modal = document.getElementById('successModal');
+    const closeModal = document.getElementById('closeModal');
+
+    function validateField(field, condition, errorMsg) {
+      const errorSpan = field.parentElement.querySelector('.error-msg') || (() => { const span = document.createElement('div'); span.className = 'error-msg'; field.parentElement.appendChild(span); return span; })();
+      if (condition) {
+        field.classList.remove('error');
+        errorSpan.classList.remove('show');
+        errorSpan.textContent = '';
+        return true;
+      } else {
+        field.classList.add('error');
+        errorSpan.textContent = errorMsg;
+        errorSpan.classList.add('show');
+        return false;
+      }
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const prenom = document.getElementById('prenom');
+      const nom = document.getElementById('nom');
+      const email = document.getElementById('email');
+      const telephone = document.getElementById('telephone');
+      const date = document.getElementById('date');
+      
+      let isValid = true;
+      isValid &= validateField(prenom, prenom.value.trim() !== '', 'Prénom requis');
+      isValid &= validateField(nom, nom.value.trim() !== '', 'Nom requis');
+      isValid &= validateField(email, email.value.trim() !== '' && email.value.includes('@'), 'Email valide requis');
+      isValid &= validateField(telephone, telephone.value.trim() !== '', 'Téléphone requis');
+      isValid &= validateField(date, date.value !== '', 'Date requise');
+      
+      if (isValid) {
+        modal.classList.add('active');
+        form.reset();
+        setTimeout(() => modal.classList.remove('active'), 3000);
+      }
+    });
+
+    closeModal.addEventListener('click', () => modal.classList.remove('active'));
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
+
+    // Set minimum date to today
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('date').min = today;
+  </script>
+</body>
+</html>
