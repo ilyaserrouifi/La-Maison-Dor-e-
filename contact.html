@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — La Maison Dorée | Restaurant Gastronomique</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Montserrat:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-primary: #0A0806;
+      --bg-secondary: #13100D;
+      --bg-card: #1A1714;
+      --gold: #D4AF37;
+      --gold-light: #F3E5AB;
+      --gold-dark: #B8960C;
+      --text-primary: #FFFFFF;
+      --text-secondary: #E0E0E0;
+      --text-muted: #A0A0A0;
+      --accent: #8B7355;
+      --border-light: rgba(212, 175, 55, 0.15);
+      --success: #4CAF50;
+      --error: #E25822;
+      --font-title: 'Playfair Display', serif;
+      --font-body: 'Cormorant Garamond', serif;
+      --font-ui: 'Montserrat', sans-serif;
+    }
+
+    body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInScale {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-60px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(60px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.05); }
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+    @keyframes borderGlow {
+      0% { border-color: rgba(212, 175, 55, 0.3); box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.1); }
+      100% { border-color: rgba(212, 175, 55, 0.8); box-shadow: 0 0 20px 5px rgba(212, 175, 55, 0.15); }
+    }
+
+    /* ===== SCROLL REVEAL ===== */
+    .reveal { opacity: 0; transform: translateY(50px); transition: all 1s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-left { opacity: 0; transform: translateX(-50px); transition: all 1s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right { opacity: 0; transform: translateX(50px); transition: all 1s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+    .reveal-scale { opacity: 0; transform: scale(0.9); transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+    .reveal-scale.visible { opacity: 1; transform: scale(1); }
+
+    /* ===== CUSTOM SCROLLBAR ===== */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+    /* ===== NAVBAR ===== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 5rem;
+      transition: all 0.5s ease;
+      background: rgba(10, 8, 6, 0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .nav-logo svg { display: block; }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      text-decoration: none;
+      position: relative;
+      transition: color 0.3s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 0;
+      height: 1.5px;
+      background: var(--gold);
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-links a.active { color: var(--gold); }
+
+    .nav-btn {
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1.5px solid var(--gold);
+      background: transparent;
+      padding: 0.7rem 1.8rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.4s ease;
+    }
+    .nav-btn:hover { background: var(--gold); color: var(--bg-primary); }
+
+    /* ===== HERO SECTION ===== */
+    .contact-hero {
+      height: 60vh;
+      min-height: 450px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url('https://images.pexels.com/photos/28839927/pexels-photo-28839927.jpeg?auto=compress&cs=tinysrgb&w=1600');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.4);
+      transform: scale(1.05);
+      transition: transform 8s ease;
+    }
+    .contact-hero:hover .hero-bg { transform: scale(1.1); }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(10,8,6,0.7) 0%, rgba(10,8,6,0.4) 100%);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      padding: 0 2rem;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      animation: fadeInUp 0.8s ease;
+    }
+    .hero-badge::before, .hero-badge::after {
+      content: '';
+      display: inline-block;
+      width: 50px;
+      height: 1px;
+      background: var(--gold);
+    }
+    .hero-content h1 {
+      font-family: var(--font-title);
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 400;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+      animation: fadeInUp 0.8s ease 0.2s both;
+    }
+    .hero-content h1 em {
+      font-style: italic;
+      color: var(--gold);
+      font-weight: 600;
+    }
+    .hero-content p {
+      font-family: var(--font-body);
+      font-size: 1.1rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text-muted);
+      animation: fadeInUp 0.8s ease 0.4s both;
+    }
+    .gold-divider {
+      width: 80px;
+      height: 2px;
+      background: var(--gold);
+      margin: 1.5rem auto;
+    }
+
+    /* ===== CONTACT SECTION ===== */
+    .contact-section {
+      max-width: 1400px;
+      margin: -80px auto 0;
+      padding: 0 4rem 6rem;
+      position: relative;
+      z-index: 10;
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 3rem;
+    }
+
+    /* ===== INFO CARDS ===== */
+    .info-wrapper {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      padding: 2rem;
+    }
+    .info-title {
+      font-family: var(--font-title);
+      font-size: 1.8rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+    .info-title span { color: var(--gold); font-style: italic; }
+    .info-divider {
+      width: 50px;
+      height: 2px;
+      background: var(--gold);
+      margin: 1rem 0 2rem;
+    }
+
+    .info-card {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border-light);
+      transition: all 0.4s;
+      cursor: pointer;
+    }
+    .info-card:hover {
+      transform: translateX(8px);
+      border-color: var(--gold);
+      background: rgba(212, 175, 55, 0.05);
+    }
+    .info-icon {
+      width: 55px;
+      height: 55px;
+      background: rgba(212, 175, 55, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      color: var(--gold);
+      transition: all 0.4s;
+    }
+    .info-card:hover .info-icon {
+      background: var(--gold);
+      color: var(--bg-primary);
+      transform: scale(1.1);
+    }
+    .info-details h4 {
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.3rem;
+    }
+    .info-details p, .info-details a {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .info-details a:hover { color: var(--gold); }
+
+    /* Hours Table */
+    .hours-wrapper {
+      margin-top: 1.5rem;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border-light);
+      padding: 1.5rem;
+    }
+    .hours-title {
+      font-family: var(--font-title);
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    .hours-title i { color: var(--gold); margin-right: 0.5rem; }
+    .hours-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.8rem 0;
+      border-bottom: 1px dashed var(--border-light);
+    }
+    .hours-row span:first-child { font-family: var(--font-ui); font-size: 0.8rem; color: var(--text-muted); }
+    .hours-row span:last-child { font-family: var(--font-body); font-size: 0.9rem; color: var(--gold); font-weight: 500; }
+    .special-note { margin-top: 1rem; text-align: center; font-family: var(--font-ui); font-size: 0.7rem; color: var(--gold); }
+
+    /* Social Media */
+    .social-wrapper {
+      margin-top: 1.5rem;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border-light);
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .social-title {
+      font-family: var(--font-title);
+      font-size: 1.2rem;
+      margin-bottom: 1.2rem;
+    }
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .social-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(212, 175, 55, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: var(--gold);
+      text-decoration: none;
+      transition: all 0.4s;
+    }
+    .social-icon:hover {
+      background: var(--gold);
+      color: var(--bg-primary);
+      transform: translateY(-5px);
+    }
+
+    /* Map */
+    .map-wrapper {
+      margin-top: 1.5rem;
+      height: 250px;
+      position: relative;
+      overflow: hidden;
+    }
+    .map-wrapper iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      filter: grayscale(0.3);
+    }
+    .map-overlay {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      background: var(--gold);
+      padding: 0.5rem 1rem;
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .map-overlay:hover { background: var(--gold-dark); }
+
+    /* ===== FORM SECTION ===== */
+    .form-wrapper {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      padding: 2rem;
+    }
+    .form-title {
+      font-family: var(--font-title);
+      font-size: 1.8rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+    .form-title span { color: var(--gold); font-style: italic; }
+    .form-subtitle {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      margin-bottom: 1.2rem;
+    }
+    .form-group { margin-bottom: 1.2rem; }
+    label {
+      display: block;
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 1rem 1.2rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border-light);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      transition: all 0.3s;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      background: rgba(212, 175, 55, 0.05);
+    }
+    input.error, select.error, textarea.error {
+      border-color: var(--error);
+      animation: fadeInScale 0.3s;
+    }
+    .error-msg {
+      color: var(--error);
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      margin-top: 0.3rem;
+      display: none;
+    }
+    .error-msg.show { display: block; }
+    textarea { resize: vertical; min-height: 120px; }
+    .submit-btn {
+      width: 100%;
+      background: var(--gold);
+      border: none;
+      padding: 1.2rem;
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--bg-primary);
+      cursor: pointer;
+      transition: all 0.4s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+    }
+    .submit-btn:hover {
+      background: var(--gold-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2);
+    }
+    .form-note {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      color: var(--text-muted);
+    }
+    .form-note i { color: var(--gold); }
+
+    /* ===== GALLERY STRIP ===== */
+    .gallery-strip {
+      padding: 4rem;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-light);
+      border-bottom: 1px solid var(--border-light);
+    }
+    .strip-title {
+      text-align: center;
+      font-family: var(--font-title);
+      font-size: 2rem;
+      font-weight: 400;
+      margin-bottom: 2rem;
+    }
+    .strip-title span { color: var(--gold); font-style: italic; }
+    .strip-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1rem;
+    }
+    .strip-item {
+      aspect-ratio: 1/1;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .strip-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s;
+    }
+    .strip-item:hover .strip-img { transform: scale(1.08); }
+
+    /* ===== TESTIMONIALS ===== */
+    .testimonials-section {
+      padding: 5rem 4rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .testimonials-title {
+      text-align: center;
+      font-family: var(--font-title);
+      font-size: 2rem;
+      font-weight: 400;
+      margin-bottom: 3rem;
+    }
+    .testimonials-title span { color: var(--gold); font-style: italic; }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    .testimonial-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      padding: 2rem;
+      text-align: center;
+      transition: all 0.4s;
+    }
+    .testimonial-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--gold);
+    }
+    .testimonial-card i { font-size: 2rem; color: var(--gold); opacity: 0.5; margin-bottom: 1rem; }
+    .testimonial-text {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-style: italic;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+    .testimonial-name {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ===== FAQ ===== */
+    .faq-section {
+      padding: 4rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .faq-title {
+      text-align: center;
+      font-family: var(--font-title);
+      font-size: 2rem;
+      margin-bottom: 3rem;
+    }
+    .faq-item {
+      border-bottom: 1px solid var(--border-light);
+      margin-bottom: 1rem;
+    }
+    .faq-question {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      cursor: pointer;
+      font-family: var(--font-title);
+      font-size: 1.1rem;
+    }
+    .faq-question i { color: var(--gold); transition: transform 0.3s; }
+    .faq-question.active i { transform: rotate(180deg); }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+      font-family: var(--font-body);
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .faq-answer.show { max-height: 150px; padding-bottom: 1rem; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--bg-secondary);
+      padding: 4rem 5rem 2rem;
+      border-top: 1px solid var(--border-light);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+    .footer-desc {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin: 1rem 0;
+    }
+    .footer-socials { display: flex; gap: 1rem; }
+    .footer-social {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .footer-social:hover { border-color: var(--gold); color: var(--gold); }
+    .footer-col h4 {
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 0.7rem; }
+    .footer-col ul a, .footer-col ul li {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .footer-col ul a:hover { color: var(--gold); }
+    .footer-bottom {
+      border-top: 1px solid var(--border-light);
+      padding-top: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-copy {
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+    }
+    .back-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 500;
+      width: 48px;
+      height: 48px;
+      border: 1.5px solid var(--gold);
+      background: var(--bg-primary);
+      color: var(--gold);
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      text-decoration: none;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.4s;
+    }
+    .back-top.visible { opacity: 1; transform: translateY(0); }
+    .back-top:hover { background: var(--gold); color: var(--bg-primary); }
+
+    /* ===== MODAL ===== */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.95);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s;
+    }
+    .modal.active { opacity: 1; visibility: visible; }
+    .modal-content {
+      background: var(--bg-card);
+      max-width: 450px;
+      width: 90%;
+      padding: 2.5rem;
+      text-align: center;
+      border: 1px solid var(--gold);
+      animation: fadeInScale 0.4s ease;
+    }
+    .modal-icon { font-size: 4rem; color: var(--success); margin-bottom: 1rem; }
+    .modal-title { font-family: var(--font-title); font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .modal-text { font-family: var(--font-body); font-size: 1rem; color: var(--text-muted); margin-bottom: 1.5rem; }
+    .modal-btn {
+      background: var(--gold);
+      border: none;
+      padding: 0.8rem 2rem;
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--bg-primary);
+      cursor: pointer;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1100px) {
+      .contact-grid { grid-template-columns: 1fr; }
+      .strip-grid { grid-template-columns: repeat(3, 1fr); }
+      .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links, .nav-btn { display: none; }
+      .contact-section { padding: 0 1.5rem 4rem; }
+      .form-row { grid-template-columns: 1fr; gap: 0; }
+      .strip-grid { grid-template-columns: repeat(2, 1fr); }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .faq-section { padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="navbar">
+    <a href="index.html" class="nav-logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 60" width="190" height="52">
+        <g transform="translate(14, 30)">
+          <polyline points="-12,-14 0,-26 12,-14" fill="none" stroke="#D4AF37" stroke-width="1.5"/>
+          <line x1="-12" y1="-14" x2="-12" y2="4" stroke="#D4AF37" stroke-width="1.5"/>
+          <line x1="12" y1="-14" x2="12" y2="4" stroke="#D4AF37" stroke-width="1.5"/>
+          <line x1="-12" y1="4" x2="12" y2="4" stroke="#D4AF37" stroke-width="1.5"/>
+          <line x1="-5" y1="-6" x2="-5" y2="4" stroke="#D4AF37" stroke-width="1"/>
+          <line x1="5" y1="-6" x2="5" y2="4" stroke="#D4AF37" stroke-width="1"/>
+        </g>
+        <text x="52" y="26" font-family="'Cormorant Garamond', Georgia, serif" font-size="12" font-weight="400" letter-spacing="0.3em" fill="#E0E0E0">LA MAISON</text>
+        <text x="52" y="50" font-family="'Playfair Display', Georgia, serif" font-size="21" font-weight="700" font-style="italic" letter-spacing="0.05em" fill="#D4AF37">Dorée</text>
+        <polygon points="48,36 50,34 52,36 50,38" fill="#D4AF37" opacity="0.7"/>
+      </svg>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="galerie.html">Galerie</a></li>
+      <li><a href="about.html">À Propos</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+    <a href="reservation.html" class="nav-btn">Réserver</a>
+  </nav>
+
+  <section class="contact-hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-badge">📍 NOUS CONTACTER 📞</div>
+      <h1>Restons <em>en contact</em></h1>
+      <div class="gold-divider"></div>
+      <p>Notre équipe est à votre disposition 7j/7 pour répondre à toutes vos questions</p>
+    </div>
+  </section>
+
+  <div class="contact-section">
+    <div class="contact-grid">
+      <div class="info-wrapper reveal-left">
+        <h2 class="info-title">Informations <span>pratiques</span></h2>
+        <div class="info-divider"></div>
+        
+        <div class="info-card">
+          <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div class="info-details"><h4>Adresse</h4><p>Casablanca, Maroc</p><p style="font-size:0.8rem;color:var(--text-muted)">Centre-ville, près de la place Mohammed V</p></div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon"><i class="fas fa-phone"></i></div>
+          <div class="info-details"><h4>Téléphone</h4><p><a href="tel:+212522123456">+212 5 22 12 34 56</a></p><p style="font-size:0.8rem;color:var(--text-muted)">Disponible de 10h à 22h</p></div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon"><i class="fas fa-envelope"></i></div>
+          <div class="info-details"><h4>Email</h4><p><a href="mailto:contact@maisondoree.ma">contact@maisondoree.ma</a></p><p style="font-size:0.8rem;color:var(--text-muted)">Réponse sous 24h</p></div>
+        </div>
+
+        <div class="hours-wrapper">
+          <div class="hours-title"><i class="fas fa-clock"></i> Horaires d'ouverture</div>
+          <div class="hours-row"><span>Mardi - Jeudi</span><span>12h00 - 23h00</span></div>
+          <div class="hours-row"><span>Vendredi - Dimanche</span><span>11h00 - 00h00</span></div>
+          <div class="hours-row"><span>Lundi</span><span>Fermé</span></div>
+          <div class="hours-row"><span>Dernière commande</span><span>30 min avant fermeture</span></div>
+          <div class="special-note"><i class="fas fa-star"></i> Ouvert les jours fériés sur réservation</div>
+        </div>
+
+        <div class="social-wrapper">
+          <div class="social-title">Suivez-nous sur les réseaux</div>
+          <div class="social-icons">
+            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-tiktok"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+
+        <div class="map-wrapper">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26593.55919875198!2d-7.6323!3d33.5731!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda7cdb8f3a7b2b5%3A0x8c3a4b2a9f5e6d7!2sCasablanca%2C%20Morocco!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s" allowfullscreen="" loading="lazy"></iframe>
+          <div class="map-overlay" onclick="window.open('https://maps.google.com/?q=Casablanca+Maroc')"><i class="fas fa-directions"></i> Itinéraire</div>
+        </div>
+      </div>
+
+      <div class="form-wrapper reveal-right">
+        <h2 class="form-title">Envoyez-nous <span>un message</span></h2>
+        <p class="form-subtitle">Nous vous répondrons dans les plus brefs délais</p>
+        
+        <form id="contactForm">
+          <div class="form-row">
+            <div class="form-group"><label><i class="fas fa-user"></i> Prénom</label><input type="text" id="prenom" placeholder="Votre prénom"></div>
+            <div class="form-group"><label><i class="fas fa-user"></i> Nom</label><input type="text" id="nom" placeholder="Votre nom"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label><i class="fas fa-envelope"></i> Email</label><input type="email" id="email" placeholder="votre@email.com"></div>
+            <div class="form-group"><label><i class="fas fa-phone"></i> Téléphone</label><input type="tel" id="telephone" placeholder="+212 XXX XXX XXX"></div>
+          </div>
+          <div class="form-group"><label><i class="fas fa-tag"></i> Sujet</label><select id="sujet"><option>Réservation</option><option>Demande d'information</option><option>Événement privé</option><option>Réclamation</option><option>Partenariat</option><option>Stage / Recrutement</option><option>Autre</option></select></div>
+          <div class="form-group"><label><i class="fas fa-comment"></i> Message</label><textarea id="message" placeholder="Votre message..."></textarea></div>
+          <button type="submit" class="submit-btn"><i class="fas fa-paper-plane"></i> Envoyer le message</button>
+          <p class="form-note"><i class="fas fa-lock"></i> Vos données sont confidentielles et ne seront pas partagées</p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="gallery-strip">
+    <h2 class="strip-title">Notre <span>univers en images</span></h2>
+    <div class="strip-grid">
+      <div class="strip-item"><img class="strip-img" src="https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Plat"></div>
+      <div class="strip-item"><img class="strip-img" src="https://images.pexels.com/photos/842571/pexels-photo-842571.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Plat"></div>
+      <div class="strip-item"><img class="strip-img" src="https://images.pexels.com/photos/3186654/pexels-photo-3186654.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Plat"></div>
+      <div class="strip-item"><img class="strip-img" src="https://images.pexels.com/photos/2606897/pexels-photo-2606897.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Restaurant"></div>
+      <div class="strip-item"><img class="strip-img" src="https://images.pexels.com/photos/3020919/pexels-photo-3020919.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Dessert"></div>
+    </div>
+  </div>
+
+  <div class="testimonials-section">
+    <h2 class="testimonials-title">Ce qu'ils <span>disent de nous</span></h2>
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal-scale"><i class="fas fa-quote-left"></i><p class="testimonial-text">"Un service client exceptionnel ! Ils ont répondu à toutes mes questions avec beaucoup de professionnalisme."</p><div class="testimonial-name">— Marie Dupont</div></div>
+      <div class="testimonial-card reveal-scale"><i class="fas fa-quote-left"></i><p class="testimonial-text">"J'ai contacté le restaurant pour organiser un anniversaire, tout était parfait. Merci pour votre réactivité !"</p><div class="testimonial-name">— Karim Bennis</div></div>
+      <div class="testimonial-card reveal-scale"><i class="fas fa-quote-left"></i><p class="testimonial-text">"Meilleur restaurant de Casablanca ! L'équipe est aux petits soins et la cuisine est divine."</p><div class="testimonial-name">— Sofia El Alami</div></div>
+    </div>
+  </div>
+
+  <div class="faq-section">
+    <h2 class="faq-title">Questions <span>fréquentes</span></h2>
+    <div class="faq-item"><div class="faq-question">Comment puis-je réserver une table ? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Vous pouvez réserver directement via notre page Réservation, par téléphone ou par email. Nous vous confirmons sous 24h.</div></div>
+    <div class="faq-item"><div class="faq-question">Acceptez-vous les animaux de compagnie ? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Oui, nous acceptons les animaux bien élevés sur notre terrasse extérieure.</div></div>
+    <div class="faq-item"><div class="faq-question">Proposez-vous des menus pour enfants ? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Oui, nous avons un menu enfant à 95DH avec des plats adaptés.</div></div>
+    <div class="faq-item"><div class="faq-question">Y a-t-il un parking à proximité ? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Oui, un parking gardé est disponible à 50m du restaurant, gratuit pour nos clients.</div></div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 60" width="170" height="48">
+          <g transform="translate(14, 30)"><polyline points="-12,-14 0,-26 12,-14" fill="none" stroke="#D4AF37" stroke-width="1.3"/><line x1="-12" y1="-14" x2="-12" y2="4" stroke="#D4AF37" stroke-width="1.3"/><line x1="12" y1="-14" x2="12" y2="4" stroke="#D4AF37" stroke-width="1.3"/><line x1="-12" y1="4" x2="12" y2="4" stroke="#D4AF37" stroke-width="1.3"/></g>
+          <text x="52" y="26" font-family="'Cormorant Garamond', Georgia, serif" font-size="11" font-weight="400" letter-spacing="0.3em" fill="#A0A0A0">LA MAISON</text>
+          <text x="52" y="50" font-family="'Playfair Display', Georgia, serif" font-size="19" font-weight="700" font-style="italic" letter-spacing="0.05em" fill="#D4AF37">Dorée</text>
+        </svg>
+        <p class="footer-desc">Une expérience gastronomique unique au cœur de la ville. Chaque plat, une histoire. Chaque visite, un souvenir inoubliable.</p>
+        <div class="footer-socials"><a href="#" class="footer-social"><i class="fab fa-instagram"></i></a><a href="#" class="footer-social"><i class="fab fa-facebook-f"></i></a><a href="#" class="footer-social"><i class="fab fa-tiktok"></i></a><a href="#" class="footer-social"><i class="fab fa-whatsapp"></i></a></div>
+      </div>
+      <div class="footer-col"><h4>Navigation</h4><ul><li><a href="index.html">Accueil</a></li><li><a href="menu.html">Notre Menu</a></li><li><a href="galerie.html">Galerie</a></li><li><a href="about.html">À Propos</a></li><li><a href="reservation.html">Réservation</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="footer-col"><h4>Horaires</h4><ul><li>Mardi – Jeudi</li><li style="color:#D4AF37;">12h00 – 23h00</li><li>Vendredi – Dimanche</li><li style="color:#D4AF37;">11h00 – 00h00</li><li>Lundi fermé</li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><i class="fas fa-map-marker-alt" style="color:#D4AF37;margin-right:8px"></i>Casablanca, Maroc</li><li><i class="fas fa-phone" style="color:#D4AF37;margin-right:8px"></i>+212 5 22 12 34 56</li><li><i class="fas fa-envelope" style="color:#D4AF37;margin-right:8px"></i>contact@maisondoree.ma</li></ul></div>
+    </div>
+    <div class="footer-bottom"><span class="footer-copy">© 2026 La Maison Dorée — Tous droits réservés</span><span class="footer-copy">Fait avec ❤️ au Maroc</span></div>
+  </footer>
+
+  <a href="#" class="back-top" id="backTop"><i class="fas fa-chevron-up"></i></a>
+
+  <div class="modal" id="successModal">
+    <div class="modal-content"><div class="modal-icon"><i class="fas fa-check-circle"></i></div><h3 class="modal-title">Message envoyé !</h3><p class="modal-text">Merci de nous avoir contactés. Nous vous répondrons sous 24h.</p><button class="modal-btn" id="closeModal">Fermer</button></div>
+  </div>
+
+  <script>
+    // Back to top
+    const backTop = document.getElementById('backTop');
+    window.addEventListener('scroll', () => backTop.classList.toggle('visible', window.scrollY > 60));
+    backTop.addEventListener('click', (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
+    // Scroll reveal
+    const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+    const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: 0.1 });
+    revealElements.forEach(el => observer.observe(el));
+
+    // FAQ Accordion
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    faqQuestions.forEach(q => {
+      q.addEventListener('click', () => {
+        q.classList.toggle('active');
+        const answer = q.nextElementSibling;
+        answer.classList.toggle('show');
+      });
+    });
+
+    // Form validation
+    const form = document.getElementById('contactForm');
+    const modal = document.getElementById('successModal');
+    const closeModal = document.getElementById('closeModal');
+
+    function validateField(field, condition, errorMsg) {
+      let errorSpan = field.parentElement.querySelector('.error-msg');
+      if (!errorSpan) {
+        errorSpan = document.createElement('div');
+        errorSpan.className = 'error-msg';
+        field.parentElement.appendChild(errorSpan);
+      }
+      if (condition) {
+        field.classList.remove('error');
+        errorSpan.classList.remove('show');
+        return true;
+      } else {
+        field.classList.add('error');
+        errorSpan.textContent = errorMsg;
+        errorSpan.classList.add('show');
+        return false;
+      }
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const prenom = document.getElementById('prenom');
+      const nom = document.getElementById('nom');
+      const email = document.getElementById('email');
+      const telephone = document.getElementById('telephone');
+      const message = document.getElementById('message');
+      
+      let isValid = true;
+      isValid &= validateField(prenom, prenom.value.trim() !== '', 'Prénom requis');
+      isValid &= validateField(nom, nom.value.trim() !== '', 'Nom requis');
+      isValid &= validateField(email, email.value.trim() !== '' && email.value.includes('@'), 'Email valide requis');
+      isValid &= validateField(telephone, telephone.value.trim() !== '', 'Téléphone requis');
+      isValid &= validateField(message, message.value.trim() !== '', 'Message requis');
+      
+      if (isValid) {
+        modal.classList.add('active');
+        form.reset();
+        setTimeout(() => modal.classList.remove('active'), 3000);
+      }
+    });
+
+    closeModal.addEventListener('click', () => modal.classList.remove('active'));
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
+  </script>
+</body>
+</html>
