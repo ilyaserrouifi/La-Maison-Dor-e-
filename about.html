@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>À Propos — La Maison Dorée | Restaurant Gastronomique</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Montserrat:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-primary: #0A0806;
+      --bg-secondary: #13100D;
+      --bg-card: #1A1714;
+      --gold: #D4AF37;
+      --gold-light: #F3E5AB;
+      --gold-dark: #B8960C;
+      --text-primary: #FFFFFF;
+      --text-secondary: #E0E0E0;
+      --text-muted: #A0A0A0;
+      --accent: #8B7355;
+      --border-light: rgba(212, 175, 55, 0.15);
+      --font-title: 'Playfair Display', serif;
+      --font-body: 'Cormorant Garamond', serif;
+      --font-ui: 'Montserrat', sans-serif;
+    }
+
+    body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+    }
+
+    /* ===== ANIMATIONS COMPLEXES ===== */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInScale {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-70px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(70px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes rotateIn {
+      from { opacity: 0; transform: rotate(-10deg) scale(0.9); }
+      to { opacity: 1; transform: rotate(0) scale(1); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.2; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.05); }
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+    @keyframes borderPulse {
+      0% { border-color: rgba(212, 175, 55, 0.2); box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.1); }
+      100% { border-color: rgba(212, 175, 55, 0.8); box-shadow: 0 0 30px 10px rgba(212, 175, 55, 0.15); }
+    }
+    @keyframes spinSlow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @keyframes textGlow {
+      0%, 100% { text-shadow: 0 0 5px rgba(212, 175, 55, 0.3); }
+      50% { text-shadow: 0 0 20px rgba(212, 175, 55, 0.6); }
+    }
+    @keyframes cardHover {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-12px); }
+    }
+
+    /* ===== SCROLL REVEAL ===== */
+    .reveal { opacity: 0; transform: translateY(50px); transition: all 1.2s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 1.2s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right { opacity: 0; transform: translateX(60px); transition: all 1.2s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+    .reveal-scale { opacity: 0; transform: scale(0.9); transition: all 1s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+    .reveal-scale.visible { opacity: 1; transform: scale(1); }
+    .reveal-rotate { opacity: 0; transform: rotate(-5deg) scale(0.95); transition: all 1s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+    .reveal-rotate.visible { opacity: 1; transform: rotate(0) scale(1); }
+
+    /* ===== CUSTOM SCROLLBAR ===== */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold-light); }
+
+    /* ===== NAVBAR ===== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 5rem;
+      transition: all 0.5s ease;
+      background: rgba(10, 8, 6, 0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-light);
+    }
+    nav.scrolled {
+      padding: 0.8rem 5rem;
+      background: rgba(10, 8, 6, 0.98);
+    }
+
+    .nav-logo svg { display: block; }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      text-decoration: none;
+      position: relative;
+      transition: color 0.3s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 0;
+      height: 1.5px;
+      background: var(--gold);
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-links a.active { color: var(--gold); }
+
+    .nav-btn {
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1.5px solid var(--gold);
+      background: transparent;
+      padding: 0.7rem 1.8rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.4s ease;
+    }
+    .nav-btn:hover { background: var(--gold); color: var(--bg-primary); }
+
+    /* ===== HERO SECTION WITH PARALLAX ===== */
+    .about-hero {
+      height: 85vh;
+      min-height: 600px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url('https://images.pexels.com/photos/260922/pexels-photo-260922.jpeg?auto=compress&cs=tinysrgb&w=1600');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.35);
+      transform: scale(1.08);
+      transition: transform 12s ease;
+    }
+    .about-hero:hover .hero-bg { transform: scale(1.15); }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(10,8,6,0.85) 0%, rgba(10,8,6,0.3) 100%);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      padding: 0 2rem;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      animation: fadeInUp 0.8s ease;
+    }
+    .hero-badge::before, .hero-badge::after {
+      content: '';
+      display: inline-block;
+      width: 50px;
+      height: 1px;
+      background: var(--gold);
+    }
+    .hero-content h1 {
+      font-family: var(--font-title);
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      font-weight: 400;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+      animation: fadeInUp 0.8s ease 0.2s both;
+    }
+    .hero-content h1 em {
+      font-style: italic;
+      color: var(--gold);
+      font-weight: 600;
+      animation: textGlow 3s infinite;
+    }
+    .hero-content p {
+      font-family: var(--font-body);
+      font-size: 1.2rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text-muted);
+      animation: fadeInUp 0.8s ease 0.4s both;
+    }
+    .gold-divider {
+      width: 80px;
+      height: 2px;
+      background: var(--gold);
+      margin: 1.5rem auto;
+    }
+    .hero-scroll {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--gold);
+      font-family: var(--font-ui);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      cursor: pointer;
+      animation: float 2s infinite;
+    }
+
+    /* ===== STORY SECTION ===== */
+    .story-section {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 6rem 4rem;
+    }
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .story-image {
+      position: relative;
+      overflow: hidden;
+    }
+    .story-img {
+      width: 100%;
+      height: 550px;
+      object-fit: cover;
+      transition: transform 0.8s ease;
+    }
+    .story-image:hover .story-img { transform: scale(1.05); }
+    .story-badge {
+      position: absolute;
+      bottom: 25px;
+      right: 25px;
+      background: var(--gold);
+      color: var(--bg-primary);
+      padding: 0.6rem 1.8rem;
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      z-index: 2;
+    }
+    .story-content h2 {
+      font-family: var(--font-title);
+      font-size: 2.8rem;
+      font-weight: 400;
+      margin-bottom: 1rem;
+    }
+    .story-content h2 span { color: var(--gold); font-style: italic; }
+    .story-divider {
+      width: 70px;
+      height: 2px;
+      background: var(--gold);
+      margin: 1.5rem 0;
+    }
+    .story-content p {
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      margin-bottom: 1.2rem;
+    }
+    .signature {
+      margin-top: 2rem;
+      font-family: var(--font-title);
+      font-size: 1.4rem;
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    /* ===== STATS SECTION ===== */
+    .stats-section {
+      background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+      padding: 5rem 4rem;
+      border-top: 1px solid var(--border-light);
+      border-bottom: 1px solid var(--border-light);
+      position: relative;
+      overflow: hidden;
+    }
+    .stats-section::before {
+      content: '★';
+      position: absolute;
+      font-size: 20rem;
+      opacity: 0.02;
+      bottom: -5rem;
+      right: -5rem;
+      animation: spinSlow 30s linear infinite;
+    }
+    .stats-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      text-align: center;
+    }
+    .stat-card {
+      padding: 1.5rem;
+      transition: all 0.5s;
+      background: rgba(255,255,255,0.02);
+      backdrop-filter: blur(5px);
+    }
+    .stat-card:hover {
+      transform: translateY(-10px);
+      background: rgba(212, 175, 55, 0.05);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+    }
+    .stat-icon {
+      font-size: 2.8rem;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+    .stat-number {
+      font-family: var(--font-title);
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: var(--gold);
+    }
+    .stat-label {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+
+    /* ===== PHILOSOPHY SECTION ===== */
+    .philosophy-section {
+      padding: 6rem 4rem;
+      background: var(--bg-primary);
+    }
+    .philosophy-header {
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto 4rem;
+    }
+    .philosophy-header h2 {
+      font-family: var(--font-title);
+      font-size: 2.8rem;
+      font-weight: 400;
+      margin-bottom: 1rem;
+    }
+    .philosophy-header h2 span { color: var(--gold); font-style: italic; }
+    .philosophy-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+    }
+    .philosophy-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      padding: 2.5rem;
+      text-align: center;
+      transition: all 0.5s;
+      position: relative;
+      overflow: hidden;
+    }
+    .philosophy-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+      transition: left 0.6s;
+    }
+    .philosophy-card:hover::before { left: 100%; }
+    .philosophy-card:hover {
+      transform: translateY(-12px);
+      border-color: var(--gold);
+    }
+    .philosophy-icon {
+      width: 90px;
+      height: 90px;
+      background: rgba(212, 175, 55, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.8rem;
+      font-size: 2.2rem;
+      color: var(--gold);
+      transition: all 0.5s;
+    }
+    .philosophy-card:hover .philosophy-icon {
+      background: var(--gold);
+      color: var(--bg-primary);
+      transform: scale(1.1) rotate(360deg);
+    }
+    .philosophy-card h3 {
+      font-family: var(--font-title);
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+    }
+    .philosophy-card p {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* ===== TIMELINE SECTION ===== */
+    .timeline-section {
+      padding: 6rem 4rem;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-light);
+      border-bottom: 1px solid var(--border-light);
+      position: relative;
+    }
+    .timeline-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    .timeline-header h2 {
+      font-family: var(--font-title);
+      font-size: 2.8rem;
+      font-weight: 400;
+    }
+    .timeline-header h2 span { color: var(--gold); font-style: italic; }
+    .timeline {
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 100%;
+      background: linear-gradient(to bottom, transparent, var(--gold), var(--gold), transparent);
+    }
+    .timeline-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4rem;
+      position: relative;
+    }
+    .timeline-item:nth-child(odd) .timeline-content { margin-left: auto; text-align: left; }
+    .timeline-item:nth-child(even) .timeline-content { margin-right: auto; text-align: right; }
+    .timeline-year {
+      width: 140px;
+      text-align: center;
+      font-family: var(--font-title);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--gold);
+      position: relative;
+      z-index: 2;
+      background: var(--bg-secondary);
+      padding: 0.5rem;
+    }
+    .timeline-content {
+      width: calc(50% - 100px);
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      padding: 1.8rem;
+      transition: all 0.5s;
+      cursor: pointer;
+    }
+    .timeline-content:hover {
+      border-color: var(--gold);
+      transform: translateX(5px);
+      animation: borderPulse 0.5s;
+    }
+    .timeline-content h3 {
+      font-family: var(--font-title);
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      color: var(--gold);
+    }
+    .timeline-content p {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ===== CHEF SECTION ===== */
+    .chef-section {
+      padding: 6rem 4rem;
+      background: var(--bg-primary);
+    }
+    .chef-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .chef-image {
+      position: relative;
+      overflow: hidden;
+    }
+    .chef-img {
+      width: 100%;
+      height: 600px;
+      object-fit: cover;
+      transition: transform 0.8s;
+    }
+    .chef-image:hover .chef-img { transform: scale(1.05); }
+    .chef-badge {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: var(--gold);
+      color: var(--bg-primary);
+      padding: 0.5rem 1.2rem;
+      font-family: var(--font-ui);
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+    }
+    .chef-social {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      gap: 0.5rem;
+    }
+    .chef-social a {
+      width: 40px;
+      height: 40px;
+      background: rgba(0,0,0,0.6);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .chef-social a:hover {
+      background: var(--gold);
+      color: var(--bg-primary);
+      transform: translateY(-3px);
+    }
+    .chef-content h2 {
+      font-family: var(--font-title);
+      font-size: 2.8rem;
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+    }
+    .chef-content h2 span { color: var(--gold); font-style: italic; }
+    .chef-title {
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+    .chef-content p {
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      margin-bottom: 1.2rem;
+    }
+    .chef-quote {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      border-left: 3px solid var(--gold);
+      background: rgba(212, 175, 55, 0.05);
+      font-family: var(--font-title);
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--gold-light);
+    }
+
+    /* ===== TEAM SECTION ===== */
+    .team-section {
+      padding: 6rem 4rem;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-light);
+      border-bottom: 1px solid var(--border-light);
+    }
+    .team-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    .team-header h2 {
+      font-family: var(--font-title);
+      font-size: 2.8rem;
+      font-weight: 400;
+    }
+    .team-header h2 span { color: var(--gold); font-style: italic; }
+    .team-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    .team-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      text-align: center;
+      transition: all 0.5s;
+      overflow: hidden;
+    }
+    .team-card:hover {
+      transform: translateY(-10px);
+      border-color: var(--gold);
+    }
+    .team-img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+    .team-card:hover .team-img { transform: scale(1.05); }
+    .team-info {
+      padding: 1.5rem;
+    }
+    .team-info h3 {
+      font-family: var(--font-title);
+      font-size: 1.3rem;
+      margin-bottom: 0.3rem;
+    }
+    .team-info p {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+    .team-info .desc {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* ===== GALLERY STRIP ===== */
+    .gallery-strip {
+      padding: 5rem 4rem;
+      background: var(--bg-primary);
+    }
+    .strip-title {
+      text-align: center;
+      font-family: var(--font-title);
+      font-size: 2.5rem;
+      font-weight: 400;
+      margin-bottom: 3rem;
+    }
+    .strip-title span { color: var(--gold); font-style: italic; }
+    .strip-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 1rem;
+    }
+    .strip-item {
+      aspect-ratio: 1/1;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+    }
+    .strip-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s;
+    }
+    .strip-item:hover .strip-img { transform: scale(1.1); }
+    .strip-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(212, 175, 55, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .strip-item:hover .strip-overlay { opacity: 1; }
+    .strip-overlay i { font-size: 2rem; color: white; }
+
+    /* ===== TESTIMONIALS SECTION ===== */
+    .testimonials-section {
+      padding: 6rem 4rem;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-light);
+    }
+    .testimonials-title {
+      text-align: center;
+      font-family: var(--font-title);
+      font-size: 2.8rem;
+      font-weight: 400;
+      margin-bottom: 3rem;
+    }
+    .testimonials-title span { color: var(--gold); font-style: italic; }
+    .testimonials-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    .testimonial-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      padding: 2rem;
+      text-align: center;
+      transition: all 0.5s;
+    }
+    .testimonial-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--gold);
+    }
+    .testimonial-card i { font-size: 2.5rem; color: var(--gold); opacity: 0.5; margin-bottom: 1rem; }
+    .testimonial-text {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 1.2rem;
+    }
+    .testimonial-name {
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .testimonial-rating {
+      margin-top: 0.5rem;
+      color: var(--gold);
+      font-size: 0.8rem;
+    }
+
+    /* ===== AWARDS SECTION ===== */
+    .awards-section {
+      padding: 6rem 4rem;
+      background: var(--bg-primary);
+    }
+    .awards-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .awards-header h2 {
+      font-family: var(--font-title);
+      font-size: 2.8rem;
+      font-weight: 400;
+    }
+    .awards-header h2 span { color: var(--gold); font-style: italic; }
+    .awards-grid {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+    .award-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      padding: 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      transition: all 0.5s;
+    }
+    .award-card:hover {
+      transform: translateX(10px);
+      border-color: var(--gold);
+    }
+    .award-icon {
+      font-size: 2.5rem;
+      color: var(--gold);
+    }
+    .award-content h3 {
+      font-family: var(--font-title);
+      font-size: 1.2rem;
+      margin-bottom: 0.3rem;
+    }
+    .award-content p {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+    }
+
+    /* ===== CTA SECTION ===== */
+    .cta-section {
+      background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 100%);
+      padding: 5rem 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '🍽️';
+      position: absolute;
+      font-size: 15rem;
+      opacity: 0.1;
+      bottom: -5rem;
+      right: -5rem;
+    }
+    .cta-section h2 {
+      font-family: var(--font-title);
+      font-size: 2.8rem;
+      font-weight: 400;
+      color: var(--bg-primary);
+      margin-bottom: 1rem;
+    }
+    .cta-section p {
+      font-family: var(--font-body);
+      font-size: 1.2rem;
+      color: rgba(10,8,6,0.8);
+      margin-bottom: 2rem;
+    }
+    .cta-btn {
+      background: var(--bg-primary);
+      border: none;
+      padding: 1rem 2.8rem;
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      cursor: pointer;
+      transition: all 0.5s;
+      position: relative;
+      z-index: 2;
+    }
+    .cta-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--bg-secondary);
+      padding: 4rem 5rem 2rem;
+      border-top: 1px solid var(--border-light);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+    .footer-desc {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin: 1rem 0;
+    }
+    .footer-socials { display: flex; gap: 1rem; }
+    .footer-social {
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: all 0.4s;
+    }
+    .footer-social:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-3px); }
+    .footer-col h4 {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 0.7rem; }
+    .footer-col ul a, .footer-col ul li {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .footer-col ul a:hover { color: var(--gold); }
+    .footer-bottom {
+      border-top: 1px solid var(--border-light);
+      padding-top: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-copy {
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+    }
+    .back-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 500;
+      width: 50px;
+      height: 50px;
+      border: 1.5px solid var(--gold);
+      background: var(--bg-primary);
+      color: var(--gold);
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      text-decoration: none;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.4s;
+    }
+    .back-top.visible { opacity: 1; transform: translateY(0); }
+    .back-top:hover { background: var(--gold); color: var(--bg-primary); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1200px) {
+      .strip-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 1024px) {
+      .story-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .philosophy-grid { grid-template-columns: repeat(2, 1fr); }
+      .chef-grid { grid-template-columns: 1fr; }
+      .team-grid { grid-template-columns: repeat(2, 1fr); }
+      .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+      .awards-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links, .nav-btn { display: none; }
+      .about-hero { height: 70vh; }
+      .story-section { padding: 3rem 1.5rem; }
+      .stats-section { padding: 3rem 1.5rem; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .philosophy-section { padding: 3rem 1.5rem; }
+      .philosophy-grid { grid-template-columns: 1fr; }
+      .timeline-section { padding: 3rem 1.5rem; }
+      .timeline::before { left: 30px; }
+      .timeline-item { flex-direction: column; }
+      .timeline-year { width: auto; margin-bottom: 0.5rem; text-align: left; margin-left: 30px; }
+      .timeline-content { width: calc(100% - 60px); margin-left: auto; }
+      .chef-section { padding: 3rem 1.5rem; }
+      .team-section { padding: 3rem 1.5rem; }
+      .team-grid { grid-template-columns: 1fr; }
+      .testimonials-section { padding: 3rem 1.5rem; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .awards-section { padding: 3rem 1.5rem; }
+      .gallery-strip { padding: 3rem 1.5rem; }
+      .strip-grid { grid-template-columns: repeat(2, 1fr); }
+      .cta-section { padding: 3rem 1.5rem; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="navbar">
+    <a href="index.html" class="nav-logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 60" width="190" height="52">
+        <g transform="translate(14, 30)">
+          <polyline points="-12,-14 0,-26 12,-14" fill="none" stroke="#D4AF37" stroke-width="1.5"/>
+          <line x1="-12" y1="-14" x2="-12" y2="4" stroke="#D4AF37" stroke-width="1.5"/>
+          <line x1="12" y1="-14" x2="12" y2="4" stroke="#D4AF37" stroke-width="1.5"/>
+          <line x1="-12" y1="4" x2="12" y2="4" stroke="#D4AF37" stroke-width="1.5"/>
+          <line x1="-5" y1="-6" x2="-5" y2="4" stroke="#D4AF37" stroke-width="1"/>
+          <line x1="5" y1="-6" x2="5" y2="4" stroke="#D4AF37" stroke-width="1"/>
+        </g>
+        <text x="52" y="26" font-family="'Cormorant Garamond', Georgia, serif" font-size="12" font-weight="400" letter-spacing="0.3em" fill="#E0E0E0">LA MAISON</text>
+        <text x="52" y="50" font-family="'Playfair Display', Georgia, serif" font-size="21" font-weight="700" font-style="italic" letter-spacing="0.05em" fill="#D4AF37">Dorée</text>
+        <polygon points="48,36 50,34 52,36 50,38" fill="#D4AF37" opacity="0.7"/>
+      </svg>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="galerie.html">Galerie</a></li>
+      <li><a href="about.html" class="active">À Propos</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="reservation.html" class="nav-btn">Réserver</a>
+  </nav>
+
+  <section class="about-hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-badge">👨‍🍳 NOTRE HISTOIRE 🍷</div>
+      <h1>L'histoire de <em>La Maison Dorée</em></h1>
+      <div class="gold-divider"></div>
+      <p>Une passion pour la gastronomie française et marocaine depuis 2018</p>
+    </div>
+    <div class="hero-scroll" onclick="document.getElementById('story').scrollIntoView({behavior:'smooth'})">
+      <i class="fas fa-chevron-down"></i>
+      <span>DÉCOUVRIR</span>
+    </div>
+  </section>
+
+  <section class="story-section" id="story">
+    <div class="story-grid">
+      <div class="story-image reveal-left">
+        <img class="story-img" src="https://images.pexels.com/photos/28839927/pexels-photo-28839927.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Restaurant historique">
+        <div class="story-badge">DEPUIS 2018</div>
+      </div>
+      <div class="story-content reveal-right">
+        <h2>Notre <span>histoire</span></h2>
+        <div class="story-divider"></div>
+        <p>Fondée en 2018 au cœur de Casablanca, La Maison Dorée est née d'une passion commune pour l'art culinaire et l'excellence. Notre fondateur, Abdellatif Bennani, a parcouru le monde pour perfectionner son art avant de revenir au Maroc pour créer un lieu d'exception.</p>
+        <p>Depuis son ouverture, notre restaurant est devenu une référence incontournable de la gastronomie marocaine, alliant les saveurs authentiques du terroir aux techniques les plus raffinées de la cuisine française.</p>
+        <p>Notre philosophie : chaque plat raconte une histoire, chaque ingrédient est choisi avec passion, chaque client est accueilli comme un invité de marque.</p>
+        <div class="signature">— La Maison Dorée</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats-section">
+    <div class="stats-grid">
+      <div class="stat-card reveal-scale"><div class="stat-icon"><i class="fas fa-calendar-alt"></i></div><div class="stat-number">8+</div><div class="stat-label">Années d'excellence</div></div>
+      <div class="stat-card reveal-scale"><div class="stat-icon"><i class="fas fa-utensils"></i></div><div class="stat-number">25000+</div><div class="stat-label">Clients conquis</div></div>
+      <div class="stat-card reveal-scale"><div class="stat-icon"><i class="fas fa-star"></i></div><div class="stat-number">70+</div><div class="stat-label">Spécialités</div></div>
+      <div class="stat-card reveal-scale"><div class="stat-icon"><i class="fas fa-trophy"></i></div><div class="stat-number">20+</div><div class="stat-label">Prix et récompenses</div></div>
+    </div>
+  </section>
+
+  <section class="philosophy-section">
+    <div class="philosophy-header">
+      <h2>Notre <span>philosophie</span></h2>
+      <div class="gold-divider" style="margin: 1rem auto;"></div>
+      <p style="color: var(--text-muted); font-size: 1.1rem;">Trois valeurs qui guident notre passion chaque jour</p>
+    </div>
+    <div class="philosophy-grid">
+      <div class="philosophy-card reveal"><div class="philosophy-icon"><i class="fas fa-leaf"></i></div><h3>Produits frais & locaux</h3><p>Nous sélectionnons les meilleurs produits du terroir marocain et de saison pour garantir une qualité exceptionnelle.</p></div>
+      <div class="philosophy-card reveal"><div class="philosophy-icon"><i class="fas fa-heart"></i></div><h3>Passion & Savoir-faire</h3><p>Chaque plat est préparé avec amour et minutie par notre équipe de chefs talentueux formés dans les plus grandes écoles.</p></div>
+      <div class="philosophy-card reveal"><div class="philosophy-icon"><i class="fas fa-hands-helping"></i></div><h3>Hospitalité d'exception</h3><p>Nous offrons un service personnalisé et chaleureux à chaque visiteur, comme s'il s'agissait d'un invité à notre table.</p></div>
+    </div>
+  </section>
+
+  <section class="timeline-section">
+    <div class="timeline-header">
+      <h2>Notre <span>parcours</span></h2>
+      <div class="gold-divider" style="margin: 1rem auto;"></div>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item"><div class="timeline-year">2018</div><div class="timeline-content"><h3>Ouverture de La Maison Dorée</h3><p>Ouverture de notre premier restaurant à Casablanca avec une capacité de 50 couverts. Une vision : offrir une expérience culinaire unique.</p></div></div>
+      <div class="timeline-item"><div class="timeline-year">2019</div><div class="timeline-content"><h3>Première étoile</h3><p>Reconnaissance par le guide gastronomique marocain pour l'excellence de notre cuisine et la qualité de notre service.</p></div></div>
+      <div class="timeline-item"><div class="timeline-year">2020</div><div class="timeline-content"><h3>Résilience et adaptation</h3><p>Malgré la pandémie, nous avons innové avec un service de livraison haut de gamme et des menus à emporter.</p></div></div>
+      <div class="timeline-item"><div class="timeline-year">2021</div><div class="timeline-content"><h3>Extension de la salle</h3><p>Agrandissement du restaurant avec une magnifique terrasse et un salon privé pour les événements d'entreprise.</p></div></div>
+      <div class="timeline-item"><div class="timeline-year">2022</div><div class="timeline-content"><h3>Meilleur restaurant de Casablanca</h3><p>Élu meilleur restaurant gastronomique par le magazine "Casablanca Sélection".</p></div></div>
+      <div class="timeline-item"><div class="timeline-year">2023</div><div class="timeline-content"><h3>Chef étoilé</h3><p>Notre chef Abdellatif Bennani reçoit le titre de Meilleur Ouvrier de France, une consécration internationale.</p></div></div>
+      <div class="timeline-item"><div class="timeline-year">2024</div><div class="timeline-content"><h3>Reconnaissance internationale</h3><p>Invité au World Gastronomy Summit à Paris pour représenter la gastronomie marocaine.</p></div></div>
+      <div class="timeline-item"><div class="timeline-year">2025</div><div class="timeline-content"><h3>Ouverture du second établissement</h3><p>Nouveau chapitre avec l'ouverture d'une seconde adresse à Marrakech, au cœur de la médina.</p></div></div>
+    </div>
+  </section>
+
+  <section class="chef-section">
+    <div class="chef-grid">
+      <div class="chef-image reveal-left">
+        <img class="chef-img" src="https://images.pexels.com/photos/28839928/pexels-photo-28839928.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Chef Abdellatif Bennani">
+        <div class="chef-badge">MEILLEUR OUVRIER DE FRANCE</div>
+        <div class="chef-social">
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+      <div class="chef-content reveal-right">
+        <h2>Notre <span>Chef</span></h2>
+        <div class="chef-title">ABDELLATIF BENNANI</div>
+        <div class="story-divider"></div>
+        <p>Formé dans les plus grandes maisons étoilées de France (Le Meurice, L'Ambroisie, Guy Savoy), Abdellatif Bennani a choisi de revenir à ses racines marocaines pour créer une cuisine unique, alliant tradition et modernité.</p>
+        <p>Sa philosophie : "La cuisine est l'art d'éveiller les souvenirs et de créer des émotions. Chaque plat que nous servons raconte une histoire unique. Je puise mon inspiration dans les saveurs de mon enfance et les techniques que j'ai apprises aux quatre coins du monde."</p>
+        <div class="chef-quote">
+          <i class="fas fa-quote-left" style="margin-right: 1rem; color: var(--gold);"></i>
+          La cuisine marocaine mérite d'être célébrée sur la scène mondiale. Je suis fier d'en être un ambassadeur et de partager ma passion avec nos clients.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="team-section">
+    <div class="team-header">
+      <h2>Notre <span>équipe</span></h2>
+      <div class="gold-divider" style="margin: 1rem auto;"></div>
+      <p style="color: var(--text-muted);">Des passionnés à votre service</p>
+    </div>
+    <div class="team-grid">
+      <div class="team-card reveal-scale"><img class="team-img" src="https://images.pexels.com/photos/28839930/pexels-photo-28839930.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Chef pâtissier"><div class="team-info"><h3>Yasmine El Fassi</h3><p>CHEF PÂTISSIÈRE</p><p class="desc">Formée à l'École Lenôtre à Paris, elle crée des desserts d'exception qui raviront vos papilles.</p></div></div>
+      <div class="team-card reveal-scale"><img class="team-img" src="https://images.pexels.com/photos/28839929/pexels-photo-28839929.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Sommelier"><div class="team-info"><h3>Mehdi Benjelloun</h3><p>SOMMELIER</p><p class="desc">Meilleur sommelier du Maroc 2022, il saura vous conseiller le vin parfait pour sublimer votre repas.</p></div></div>
+      <div class="team-card reveal-scale"><img class="team-img" src="https://images.pexels.com/photos/28839931/pexels-photo-28839931.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Maître d'hôtel"><div class="team-info"><h3>Karim Touzani</h3><p>MAÎTRE D'HÔTEL</p><p class="desc">Avec plus de 15 ans d'expérience dans les palaces, il veille à ce que chaque visiteur vive un moment inoubliable.</p></div></div>
+    </div>
+  </section>
+
+  <div class="gallery-strip">
+    <h2 class="strip-title">Notre <span>univers</span> en images</h2>
+    <div class="strip-grid">
+      <div class="strip-item"><img class="strip-img" src="https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Plat"><div class="strip-overlay"><i class="fas fa-search-plus"></i></div></div>
+      <div class="strip-item"><img class="strip-img" src="https://images.pexels.com/photos/842571/pexels-photo-842571.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Plat"><div class="strip-overlay"><i class="fas fa-search-plus"></i></div></div>
+      <div class="strip-item"><img class="strip-img" src="https://images.pexels.com/photos/3186654/pexels-photo-3186654.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Plat"><div class="strip-overlay"><i class="fas fa-search-plus"></i></div></div>
+      <div class="strip-item"><img class="strip-img" src="https://images.pexels.com/photos/2606897/pexels-photo-2606897.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Restaurant"><div class="strip-overlay"><i class="fas fa-search-plus"></i></div></div>
+      <div class="strip-item"><img class="strip-img" src="https://images.pexels.com/photos/3020919/pexels-photo-3020919.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Dessert"><div class="strip-overlay"><i class="fas fa-search-plus"></i></div></div>
+      <div class="strip-item"><img class="strip-img" src="https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Plat"><div class="strip-overlay"><i class="fas fa-search-plus"></i></div></div>
+    </div>
+  </div>
+
+  <section class="testimonials-section">
+    <h2 class="testimonials-title">Ce qu'ils <span>disent de nous</span></h2>
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal-scale"><i class="fas fa-quote-left"></i><p class="testimonial-text">"Une expérience inoubliable ! La cuisine est divine et l'ambiance est magique. Le chef est un véritable artiste. Je reviendrai sans hésiter."</p><div class="testimonial-name">— Sophie Martin</div><div class="testimonial-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div></div>
+      <div class="testimonial-card reveal-scale"><i class="fas fa-quote-left"></i><p class="testimonial-text">"Le meilleur restaurant de Casablanca. Service impeccable, plats raffinés, cadre magnifique. Je recommande vivement la terrasse pour un dîner romantique."</p><div class="testimonial-name">— Karim Benjelloun</div><div class="testimonial-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div></div>
+      <div class="testimonial-card reveal-scale"><i class="fas fa-quote-left"></i><p class="testimonial-text">"Un cadre magnifique, une cuisine exceptionnelle. Chaque bouchée est un voyage. Le service est attentionné sans être envahissant. Parfait !"</p><div class="testimonial-name">— Laura Dubois</div><div class="testimonial-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div></div>
+    </div>
+  </section>
+
+  <section class="awards-section">
+    <div class="awards-header">
+      <h2>Nos <span>récompenses</span></h2>
+      <div class="gold-divider" style="margin: 1rem auto;"></div>
+    </div>
+    <div class="awards-grid">
+      <div class="award-card"><div class="award-icon"><i class="fas fa-star"></i></div><div class="award-content"><h3>Guide Michelin</h3><p>Étoile décernée en 2023 pour l'excellence de notre cuisine</p></div></div>
+      <div class="award-card"><div class="award-icon"><i class="fas fa-trophy"></i></div><div class="award-content"><h3>Gault & Millau</h3><p>16/20 - Table d'exception 2024</p></div></div>
+      <div class="award-card"><div class="award-icon"><i class="fas fa-medal"></i></div><div class="award-content"><h3>Meilleur Chef MOF</h3><p>Abdellatif Bennani - Meilleur Ouvrier de France 2023</p></div></div>
+      <div class="award-card"><div class="award-icon"><i class="fas fa-wine-bottle"></i></div><div class="award-content"><h3>Grande Cave</h3><p>Prix de la meilleure cave de l'année 2023</p></div></div>
+      <div class="award-card"><div class="award-icon"><i class="fas fa-crown"></i></div><div class="award-content"><h3>World Luxury Restaurant Awards</h3><p>Meilleur restaurant d'Afrique du Nord 2024</p></div></div>
+      <div class="award-card"><div class="award-icon"><i class="fas fa-chart-line"></i></div><div class="award-content"><h3>Tripadvisor</h3><p>Travellers' Choice Best of the Best 2024</p></div></div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <h2>Vivez l'expérience La Maison Dorée</h2>
+    <p>Réservez votre table et découvrez une cuisine d'exception dans un cadre unique</p>
+    <button class="cta-btn" onclick="location.href='reservation.html'">Réserver maintenant</button>
+  </section>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 60" width="170" height="48">
+          <g transform="translate(14, 30)"><polyline points="-12,-14 0,-26 12,-14" fill="none" stroke="#D4AF37" stroke-width="1.3"/><line x1="-12" y1="-14" x2="-12" y2="4" stroke="#D4AF37" stroke-width="1.3"/><line x1="12" y1="-14" x2="12" y2="4" stroke="#D4AF37" stroke-width="1.3"/><line x1="-12" y1="4" x2="12" y2="4" stroke="#D4AF37" stroke-width="1.3"/></g>
+          <text x="52" y="26" font-family="'Cormorant Garamond', Georgia, serif" font-size="11" font-weight="400" letter-spacing="0.3em" fill="#A0A0A0">LA MAISON</text>
+          <text x="52" y="50" font-family="'Playfair Display', Georgia, serif" font-size="19" font-weight="700" font-style="italic" letter-spacing="0.05em" fill="#D4AF37">Dorée</text>
+        </svg>
+        <p class="footer-desc">Une expérience gastronomique unique au cœur de Casablanca. Chaque plat raconte une histoire, chaque visite crée un souvenir inoubliable.</p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="footer-social"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="footer-social"><i class="fab fa-tiktok"></i></a>
+          <a href="#" class="footer-social"><i class="fab fa-whatsapp"></i></a>
+          <a href="#" class="footer-social"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Navigation</h4><ul><li><a href="index.html">Accueil</a></li><li><a href="menu.html">Notre Menu</a></li><li><a href="galerie.html">Galerie</a></li><li><a href="about.html">À Propos</a></li><li><a href="reservation.html">Réservation</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="footer-col"><h4>Horaires</h4><ul><li>Mardi – Jeudi</li><li style="color:#D4AF37;">12h00 – 23h00</li><li>Vendredi – Dimanche</li><li style="color:#D4AF37;">11h00 – 00h00</li><li>Lundi fermé</li><li style="color:#D4AF37;">Dernière commande : 30 min avant</li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><i class="fas fa-map-marker-alt" style="color:#D4AF37;margin-right:8px"></i>Casablanca, Maroc</li><li><i class="fas fa-phone" style="color:#D4AF37;margin-right:8px"></i>+212 5 22 12 34 56</li><li><i class="fas fa-envelope" style="color:#D4AF37;margin-right:8px"></i>contact@maisondoree.ma</li><li><i class="fas fa-globe" style="color:#D4AF37;margin-right:8px"></i>www.maisondoree.ma</li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 La Maison Dorée — Tous droits réservés</span>
+      <span class="footer-copy">Fait avec ❤️ au Maroc</span>
+    </div>
+  </footer>
+
+  <a href="#" class="back-top" id="backTop"><i class="fas fa-chevron-up"></i></a>
+
+  <script>
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    const backTop = document.getElementById('backTop');
+    
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 60) {
+        navbar.classList.add('scrolled');
+        backTop.classList.add('visible');
+      } else {
+        navbar.classList.remove('scrolled');
+        backTop.classList.remove('visible');
+      }
+    });
+    
+    backTop.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Scroll reveal
+    const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-rotate');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    
+    revealElements.forEach(el => observer.observe(el));
+
+    // Parallax effect on hero
+    window.addEventListener('scroll', () => {
+      const scrolled = window.pageYOffset;
+      const heroBg = document.querySelector('.hero-bg');
+      if (heroBg) {
+        heroBg.style.transform = `scale(1.08) translateY(${scrolled * 0.3}px)`;
+      }
+    });
+  </script>
+</body>
+</html>
