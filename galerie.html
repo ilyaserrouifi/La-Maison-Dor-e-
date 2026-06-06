@@ -68,6 +68,10 @@
       from { opacity: 0; transform: rotate(-5deg) scale(0.95); }
       to { opacity: 1; transform: rotate(0) scale(1); }
     }
+    @keyframes borderGlow {
+      0% { border-color: rgba(201, 168, 76, 0.3); box-shadow: 0 0 0 0 rgba(201, 168, 76, 0.1); }
+      100% { border-color: rgba(201, 168, 76, 0.8); box-shadow: 0 0 20px 5px rgba(201, 168, 76, 0.15); }
+    }
 
     /* ===== SCROLL REVEAL ===== */
     .reveal { opacity: 0; transform: translateY(40px); transition: all 1s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
@@ -78,6 +82,11 @@
     .reveal-right.visible { opacity: 1; transform: translateX(0); }
     .reveal-scale { opacity: 0; transform: scale(0.9); transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
     .reveal-scale.visible { opacity: 1; transform: scale(1); }
+
+    /* ===== CUSTOM SCROLLBAR ===== */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
 
     /* ===== NAVBAR ===== */
     nav {
@@ -140,35 +149,41 @@
     }
     .nav-btn:hover { background: var(--gold); color: white; }
 
-    /* ===== HEADER ===== */
-    .gallery-header {
-      padding: 12rem 4rem 5rem 4rem;
-      text-align: center;
-      background: linear-gradient(135deg, #FDFBF7 0%, #F9F5EE 50%, #FDFBF7 100%);
+    /* ===== HERO SECTION AVEC IMAGE RÉELLE ===== */
+    .gallery-hero {
+      height: 60vh;
+      min-height: 450px;
       position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
       overflow: hidden;
+      margin-top: 0;
     }
-    .gallery-header::before {
-      content: '📸';
+    .hero-bg {
       position: absolute;
-      font-size: 18rem;
-      opacity: 0.04;
-      bottom: -6rem;
-      right: -6rem;
-      pointer-events: none;
-      animation: pulse 4s infinite;
+      inset: 0;
+      background: url('https://images.pexels.com/photos/258117/pexels-photo-258117.jpeg?auto=compress&cs=tinysrgb&w=1600');
+      background-size: cover;
+      background-position: center 30%;
+      filter: brightness(0.45);
+      transform: scale(1.05);
+      transition: transform 10s ease;
     }
-    .gallery-header::after {
-      content: '🍽️';
+    .gallery-hero:hover .hero-bg { transform: scale(1.12); }
+    .hero-overlay {
       position: absolute;
-      font-size: 14rem;
-      opacity: 0.04;
-      top: -4rem;
-      left: -4rem;
-      pointer-events: none;
-      animation: pulse 4s infinite 2s;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.2) 100%);
     }
-    .gallery-badge {
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      padding: 0 2rem;
+    }
+    .hero-badge {
       display: inline-flex;
       align-items: center;
       gap: 1rem;
@@ -178,45 +193,43 @@
       letter-spacing: 0.3em;
       text-transform: uppercase;
       color: var(--gold);
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
       animation: fadeInUp 0.8s ease;
     }
-    .gallery-badge::before, .gallery-badge::after {
+    .hero-badge::before, .hero-badge::after {
       content: '';
       display: inline-block;
       width: 50px;
       height: 1px;
       background: var(--gold);
     }
-    .gallery-header h1 {
+    .hero-content h1 {
       font-family: var(--font-title);
-      font-size: clamp(3rem, 7vw, 5rem);
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
       font-weight: 400;
-      color: var(--text-dark);
-      margin-bottom: 1.5rem;
+      color: white;
+      margin-bottom: 1rem;
       animation: fadeInUp 0.8s ease 0.2s both;
+      text-shadow: 0 2px 15px rgba(0,0,0,0.3);
     }
-    .gallery-header h1 em {
+    .hero-content h1 em {
       font-style: italic;
       color: var(--gold);
       font-weight: 600;
     }
-    .gallery-sub {
+    .hero-content p {
       font-family: var(--font-body);
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: 300;
       font-style: italic;
-      color: var(--text-muted);
-      max-width: 650px;
-      margin: 0 auto;
+      color: rgba(255,255,255,0.9);
       animation: fadeInUp 0.8s ease 0.4s both;
     }
     .gold-divider {
       width: 80px;
       height: 2px;
       background: var(--gold);
-      margin: 2rem auto;
-      animation: fadeInScale 0.6s ease 0.6s both;
+      margin: 1.5rem auto;
     }
 
     /* ===== FILTERS ===== */
@@ -285,7 +298,7 @@
       animation: fadeInScale 0.6s ease;
     }
     .masonry-item:hover {
-      transform: translateY(-5px);
+      transform: translateY(-8px);
     }
     .gallery-img {
       width: 100%;
@@ -640,12 +653,15 @@
     }
     @media (max-width: 768px) {
       .nav-links, .nav-btn { display: none; }
-      .gallery-header { padding: 10rem 1.5rem 4rem; }
+      .gallery-hero { height: 50vh; min-height: 350px; }
       .gallery-container { padding: 0 1.5rem 3rem; }
       .masonry { column-count: 1; }
       .filter-section { padding: 1rem 1.5rem 0; }
+      .filter-btn { padding: 0.5rem 1rem; font-size: 0.6rem; }
       .stats-grid { grid-template-columns: 1fr; }
       .footer-grid { grid-template-columns: 1fr; }
+      .testimonials { padding: 2rem 1.5rem; }
+      .cta-section { padding: 2rem 1.5rem; }
       .lightbox-prev, .lightbox-next { display: none; }
     }
   </style>
@@ -678,11 +694,16 @@
     <a href="reservation.html" class="nav-btn">Réserver</a>
   </nav>
 
-  <section class="gallery-header">
-    <div class="gallery-badge">📸 INSTANTANÉS GOURMANDS 🍷</div>
-    <h1>Notre <em>Galerie</em></h1>
-    <div class="gold-divider"></div>
-    <p class="gallery-sub">Découvrez l'ambiance unique de La Maison Dorée à travers nos plus belles images</p>
+  <!-- HERO AVEC IMAGE RÉELLE -->
+  <section class="gallery-hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-badge">📸 INSTANTANÉS GOURMANDS 🍷</div>
+      <h1>Notre <em>Galerie</em></h1>
+      <div class="gold-divider"></div>
+      <p>Découvrez l'ambiance unique de La Maison Dorée à travers nos plus belles images</p>
+    </div>
   </section>
 
   <div class="filter-section">
@@ -696,9 +717,7 @@
   </div>
 
   <div class="gallery-container">
-    <div class="masonry" id="masonryGrid">
-      <!-- Images générées dynamiquement par JS -->
-    </div>
+    <div class="masonry" id="masonryGrid"></div>
   </div>
 
   <div class="stats-section">
@@ -765,32 +784,32 @@
   </div>
 
   <script>
-    // Gallery Data
+    // Gallery Data - 24 images professionnelles
     const galleryImages = [
-      { src: "https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&cs=tinysrgb&w=600", category: "plats", title: "Foie Gras Poêlé", desc: "Notre signature" },
-      { src: "https://images.pexels.com/photos/842571/pexels-photo-842571.jpeg?auto=compress&cs=tinysrgb&w=600", category: "plats", title: "Saint-Jacques Rôties", desc: "Fruits de mer" },
-      { src: "https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=600", category: "plats", title: "Saumon Frais", desc: "Tartare maison" },
-      { src: "https://images.pexels.com/photos/260922/pexels-photo-260922.jpeg?auto=compress&cs=tinysrgb&w=600", category: "restaurant", title: "Salle à Manger", desc: "Ambiance élégante" },
-      { src: "https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=600", category: "plats", title: "Burrata", desc: "Crémeuse et fraîche" },
-      { src: "https://images.pexels.com/photos/699953/pexels-photo-699953.jpeg?auto=compress&cs=tinysrgb&w=600", category: "plats", title: "Carpaccio", desc: "Bœuf façon Wagyu" },
-      { src: "https://images.pexels.com/photos/3186654/pexels-photo-3186654.jpeg?auto=compress&cs=tinysrgb&w=600", category: "plats", title: "Filet de Bœuf", desc: "Wagyu A5" },
-      { src: "https://images.pexels.com/photos/2606897/pexels-photo-2606897.jpeg?auto=compress&cs=tinysrgb&w=600", category: "plats", title: "Magret de Canard", desc: "Rôti au miel" },
-      { src: "https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg?auto=compress&cs=tinysrgb&w=600", category: "plats", title: "Bar en Croûte", desc: "Poisson frais" },
-      { src: "https://images.pexels.com/photos/1322184/pexels-photo-1322184.jpeg?auto=compress&cs=tinysrgb&w=600", category: "plats", title: "Carré d'Agneau", desc: "De lait rôti" },
-      { src: "https://images.pexels.com/photos/262918/pexels-photo-262918.jpeg?auto=compress&cs=tinysrgb&w=600", category: "plats", title: "Risotto", desc: "Aux truffes" },
-      { src: "https://images.pexels.com/photos/4033608/pexels-photo-4033608.jpeg?auto=compress&cs=tinysrgb&w=600", category: "plats", title: "Queue de Lotte", desc: "Sauce champagne" },
-      { src: "https://images.pexels.com/photos/3020919/pexels-photo-3020919.jpeg?auto=compress&cs=tinysrgb&w=600", category: "plats", title: "Soufflé", desc: "Grand Marnier" },
-      { src: "https://images.pexels.com/photos/1854652/pexels-photo-1854652.jpeg?auto=compress&cs=tinysrgb&w=600", category: "plats", title: "Fondant", desc: "Au chocolat" },
-      { src: "https://images.pexels.com/photos/1099680/pexels-photo-1099680.jpeg?auto=compress&cs=tinysrgb&w=600", category: "plats", title: "Tarte Tatin", desc: "Aux pommes" },
-      { src: "https://images.pexels.com/photos/1114681/pexels-photo-1114681.jpeg?auto=compress&cs=tinysrgb&w=600", category: "plats", title: "Crème Brûlée", desc: "À la vanille" },
-      { src: "https://images.pexels.com/photos/1283219/pexels-photo-1283219.jpeg?auto=compress&cs=tinysrgb&w=600", category: "restaurant", title: "Bar à Vins", desc: "Cave d'exception" },
-      { src: "https://images.pexels.com/photos/543525/pexels-photo-543525.jpeg?auto=compress&cs=tinysrgb&w=600", category: "restaurant", title: "Dégustation", desc: "Vins fins" },
-      { src: "https://images.pexels.com/photos/1248585/pexels-photo-1248585.jpeg?auto=compress&cs=tinysrgb&w=600", category: "restaurant", title: "Jus Frais", desc: "Détox maison" },
-      { src: "https://images.pexels.com/photos/1298694/pexels-photo-1298694.jpeg?auto=compress&cs=tinysrgb&w=600", category: "restaurant", title: "Thé", desc: "Grand cru" },
-      { src: "https://images.pexels.com/photos/28839927/pexels-photo-28839927.jpeg?auto=compress&cs=tinysrgb&w=600", category: "evenements", title: "Mariage", desc: "Cérémonie unique" },
-      { src: "https://images.pexels.com/photos/28839928/pexels-photo-28839928.jpeg?auto=compress&cs=tinysrgb&w=600", category: "evenements", title: "Anniversaire", desc: "Fête privée" },
-      { src: "https://images.pexels.com/photos/28839929/pexels-photo-28839929.jpeg?auto=compress&cs=tinysrgb&w=600", category: "evenements", title: "Cocktail", desc: "Soirée d'entreprise" },
-      { src: "https://images.pexels.com/photos/28839930/pexels-photo-28839930.jpeg?auto=compress&cs=tinysrgb&w=600", category: "restaurant", title: "Terrasse", desc: "Vue panoramique" }
+      { src: "https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&cs=tinysrgb&w=800", category: "plats", title: "Foie Gras Poêlé", desc: "Notre signature" },
+      { src: "https://images.pexels.com/photos/842571/pexels-photo-842571.jpeg?auto=compress&cs=tinysrgb&w=800", category: "plats", title: "Saint-Jacques Rôties", desc: "Fruits de mer" },
+      { src: "https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=800", category: "plats", title: "Saumon Frais", desc: "Tartare maison" },
+      { src: "https://images.pexels.com/photos/260922/pexels-photo-260922.jpeg?auto=compress&cs=tinysrgb&w=800", category: "restaurant", title: "Salle à Manger", desc: "Ambiance élégante" },
+      { src: "https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=800", category: "plats", title: "Burrata", desc: "Crémeuse et fraîche" },
+      { src: "https://images.pexels.com/photos/699953/pexels-photo-699953.jpeg?auto=compress&cs=tinysrgb&w=800", category: "plats", title: "Carpaccio", desc: "Bœuf façon Wagyu" },
+      { src: "https://images.pexels.com/photos/3186654/pexels-photo-3186654.jpeg?auto=compress&cs=tinysrgb&w=800", category: "plats", title: "Filet de Bœuf", desc: "Wagyu A5" },
+      { src: "https://images.pexels.com/photos/2606897/pexels-photo-2606897.jpeg?auto=compress&cs=tinysrgb&w=800", category: "plats", title: "Magret de Canard", desc: "Rôti au miel" },
+      { src: "https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg?auto=compress&cs=tinysrgb&w=800", category: "plats", title: "Bar en Croûte", desc: "Poisson frais" },
+      { src: "https://images.pexels.com/photos/1322184/pexels-photo-1322184.jpeg?auto=compress&cs=tinysrgb&w=800", category: "plats", title: "Carré d'Agneau", desc: "De lait rôti" },
+      { src: "https://images.pexels.com/photos/262918/pexels-photo-262918.jpeg?auto=compress&cs=tinysrgb&w=800", category: "plats", title: "Risotto", desc: "Aux truffes" },
+      { src: "https://images.pexels.com/photos/4033608/pexels-photo-4033608.jpeg?auto=compress&cs=tinysrgb&w=800", category: "plats", title: "Queue de Lotte", desc: "Sauce champagne" },
+      { src: "https://images.pexels.com/photos/3020919/pexels-photo-3020919.jpeg?auto=compress&cs=tinysrgb&w=800", category: "plats", title: "Soufflé", desc: "Grand Marnier" },
+      { src: "https://images.pexels.com/photos/1854652/pexels-photo-1854652.jpeg?auto=compress&cs=tinysrgb&w=800", category: "plats", title: "Fondant", desc: "Au chocolat" },
+      { src: "https://images.pexels.com/photos/1099680/pexels-photo-1099680.jpeg?auto=compress&cs=tinysrgb&w=800", category: "plats", title: "Tarte Tatin", desc: "Aux pommes" },
+      { src: "https://images.pexels.com/photos/1114681/pexels-photo-1114681.jpeg?auto=compress&cs=tinysrgb&w=800", category: "plats", title: "Crème Brûlée", desc: "À la vanille" },
+      { src: "https://images.pexels.com/photos/1283219/pexels-photo-1283219.jpeg?auto=compress&cs=tinysrgb&w=800", category: "restaurant", title: "Bar à Vins", desc: "Cave d'exception" },
+      { src: "https://images.pexels.com/photos/543525/pexels-photo-543525.jpeg?auto=compress&cs=tinysrgb&w=800", category: "restaurant", title: "Dégustation", desc: "Vins fins" },
+      { src: "https://images.pexels.com/photos/1248585/pexels-photo-1248585.jpeg?auto=compress&cs=tinysrgb&w=800", category: "restaurant", title: "Jus Frais", desc: "Détox maison" },
+      { src: "https://images.pexels.com/photos/1298694/pexels-photo-1298694.jpeg?auto=compress&cs=tinysrgb&w=800", category: "restaurant", title: "Thé", desc: "Grand cru" },
+      { src: "https://images.pexels.com/photos/28839927/pexels-photo-28839927.jpeg?auto=compress&cs=tinysrgb&w=800", category: "evenements", title: "Mariage", desc: "Cérémonie unique" },
+      { src: "https://images.pexels.com/photos/28839928/pexels-photo-28839928.jpeg?auto=compress&cs=tinysrgb&w=800", category: "evenements", title: "Anniversaire", desc: "Fête privée" },
+      { src: "https://images.pexels.com/photos/28839929/pexels-photo-28839929.jpeg?auto=compress&cs=tinysrgb&w=800", category: "evenements", title: "Cocktail", desc: "Soirée d'entreprise" },
+      { src: "https://images.pexels.com/photos/28839930/pexels-photo-28839930.jpeg?auto=compress&cs=tinysrgb&w=800", category: "restaurant", title: "Terrasse", desc: "Vue panoramique" }
     ];
 
     let currentFilter = "all";
@@ -820,13 +839,6 @@
         item.addEventListener("click", () => openLightbox(idx));
         masonry.appendChild(item);
       });
-      
-      // Re-trigger reveal animations
-      const revealElements = document.querySelectorAll('.reveal-scale');
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
-      }, { threshold: 0.1 });
-      revealElements.forEach(el => observer.observe(el));
     }
 
     function openLightbox(index) {
