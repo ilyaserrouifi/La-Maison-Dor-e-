@@ -41,24 +41,20 @@
 
     /* Animations */
     @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(40px); }
+      from { opacity: 0; transform: translateY(50px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    @keyframes fadeInLeft {
-      from { opacity: 0; transform: translateX(-40px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-    @keyframes fadeInRight {
-      from { opacity: 0; transform: translateX(40px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-    @keyframes scaleIn {
+    @keyframes fadeInScale {
       from { opacity: 0; transform: scale(0.95); }
       to { opacity: 1; transform: scale(1); }
     }
-    @keyframes pulse {
-      0%, 100% { opacity: 0.4; }
-      50% { opacity: 0.8; }
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(50px); }
+      to { opacity: 1; transform: translateX(0); }
     }
 
     /* Scroll Reveal */
@@ -68,6 +64,13 @@
     .reveal-left.visible { opacity: 1; transform: translateX(0); }
     .reveal-right { opacity: 0; transform: translateX(40px); transition: all 1s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
     .reveal-right.visible { opacity: 1; transform: translateX(0); }
+    .reveal-scale { opacity: 0; transform: scale(0.95); transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+    .reveal-scale.visible { opacity: 1; transform: scale(1); }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
 
     /* Navbar */
     nav {
@@ -84,6 +87,9 @@
       background: rgba(253, 251, 247, 0.98);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(201, 168, 76, 0.2);
+    }
+    nav.scrolled {
+      padding: 0.8rem 5rem;
     }
 
     .nav-logo svg { display: block; }
@@ -130,36 +136,41 @@
     }
     .nav-btn:hover { background: var(--gold); color: white; }
 
-    /* Menu Header */
-    .menu-header {
-      padding: 12rem 4rem 6rem 4rem;
-      text-align: center;
-      background: linear-gradient(135deg, #FDFBF7 0%, #F9F5EE 50%, #FDFBF7 100%);
+    /* Hero Section avec Image Réelle */
+    .menu-hero {
+      height: 65vh;
+      min-height: 500px;
       position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
       overflow: hidden;
+      margin-top: 0;
     }
-    .menu-header::before {
-      content: '🍽️';
+    .hero-bg {
       position: absolute;
-      font-size: 18rem;
-      opacity: 0.05;
-      bottom: -6rem;
-      right: -6rem;
-      pointer-events: none;
-      animation: pulse 4s infinite;
+      inset: 0;
+      background: url('https://images.pexels.com/photos/258117/pexels-photo-258117.jpeg?auto=compress&cs=tinysrgb&w=1600');
+      background-size: cover;
+      background-position: center 40%;
+      filter: brightness(0.45);
+      transform: scale(1.05);
+      transition: transform 10s ease;
     }
-    .menu-header::after {
-      content: '🍷';
+    .menu-hero:hover .hero-bg { transform: scale(1.12); }
+    .hero-overlay {
       position: absolute;
-      font-size: 14rem;
-      opacity: 0.05;
-      top: -4rem;
-      left: -4rem;
-      pointer-events: none;
-      animation: pulse 4s infinite 2s;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.2) 100%);
     }
-
-    .menu-badge {
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      padding: 0 2rem;
+    }
+    .hero-badge {
       display: inline-flex;
       align-items: center;
       gap: 1rem;
@@ -169,46 +180,43 @@
       letter-spacing: 0.3em;
       text-transform: uppercase;
       color: var(--gold);
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
       animation: fadeInUp 0.8s ease;
     }
-    .menu-badge::before, .menu-badge::after {
+    .hero-badge::before, .hero-badge::after {
       content: '';
       display: inline-block;
       width: 50px;
       height: 1px;
       background: var(--gold);
     }
-
-    .menu-header h1 {
+    .hero-content h1 {
       font-family: var(--font-title);
-      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
       font-weight: 400;
-      color: var(--text-dark);
-      margin-bottom: 1.5rem;
+      color: white;
+      margin-bottom: 1rem;
       animation: fadeInUp 0.8s ease 0.2s both;
+      text-shadow: 0 2px 15px rgba(0,0,0,0.3);
     }
-    .menu-header h1 em {
+    .hero-content h1 em {
       font-style: italic;
       color: var(--gold);
       font-weight: 600;
     }
-    .menu-sub {
+    .hero-content p {
       font-family: var(--font-body);
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: 300;
       font-style: italic;
-      color: var(--text-muted);
-      max-width: 650px;
-      margin: 0 auto;
+      color: rgba(255,255,255,0.9);
       animation: fadeInUp 0.8s ease 0.4s both;
     }
     .gold-divider {
       width: 80px;
       height: 2px;
       background: var(--gold);
-      margin: 2rem auto;
-      animation: scaleIn 0.6s ease 0.6s both;
+      margin: 1.5rem auto;
     }
 
     /* Category Tabs */
@@ -217,7 +225,9 @@
       justify-content: center;
       gap: 1rem;
       flex-wrap: wrap;
-      margin: 4rem 2rem 2rem;
+      margin: -2rem 2rem 2rem;
+      position: relative;
+      z-index: 10;
     }
     .tab-btn {
       font-family: var(--font-ui);
@@ -226,13 +236,14 @@
       letter-spacing: 0.2em;
       text-transform: uppercase;
       padding: 0.9rem 2.2rem;
-      background: transparent;
-      border: 1px solid rgba(201, 168, 76, 0.3);
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
       color: var(--text-soft);
       cursor: pointer;
       transition: all 0.4s ease;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
     }
-    .tab-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .tab-btn:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-3px); }
     .tab-btn.active {
       background: var(--gold);
       border-color: var(--gold);
@@ -243,7 +254,7 @@
     .menu-container {
       max-width: 1400px;
       margin: 0 auto;
-      padding: 2rem 5rem 6rem;
+      padding: 3rem 5rem 6rem;
     }
     .category-section { display: none; animation: fadeInUp 0.6s ease; }
     .category-section.active { display: block; }
@@ -287,12 +298,12 @@
     .menu-card:hover {
       transform: translateY(-12px);
       border-color: var(--gold-light);
-      box-shadow: 0 30px 50px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 30px 50px rgba(0, 0, 0, 0.12);
     }
 
     .card-image {
       position: relative;
-      height: 270px;
+      height: 300px;
       overflow: hidden;
     }
     .card-image img {
@@ -301,7 +312,7 @@
       object-fit: cover;
       transition: transform 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1);
     }
-    .menu-card:hover .card-image img { transform: scale(1.08); }
+    .menu-card:hover .card-image img { transform: scale(1.1); }
 
     .card-badge {
       position: absolute;
@@ -316,6 +327,7 @@
       text-transform: uppercase;
       padding: 0.4rem 1rem;
       z-index: 2;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
     .card-badge.hot { background: #D4A76A; }
     .card-badge.new { background: #7BA05B; }
@@ -327,7 +339,7 @@
       bottom: 0;
       left: 0;
       right: 0;
-      height: 70px;
+      height: 80px;
       background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
     }
 
@@ -440,7 +452,7 @@
     }
     .chef-image {
       background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%);
-      height: 380px;
+      height: 400px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -452,10 +464,10 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: url('https://images.pexels.com/photos/28839927/pexels-photo-28839927.jpeg?auto=compress&cs=tinysrgb&w=600');
+      background: url('https://images.pexels.com/photos/28839928/pexels-photo-28839928.jpeg?auto=compress&cs=tinysrgb&w=600');
       background-size: cover;
       background-position: center;
-      opacity: 0.15;
+      opacity: 0.2;
     }
 
     /* Info Bar */
@@ -587,10 +599,13 @@
       .footer-grid { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
       .nav-links, .nav-btn { display: none; }
-      .menu-header { padding: 10rem 1.5rem 4rem; }
+      .menu-hero { height: 50vh; min-height: 400px; }
       .menu-container { padding: 1.5rem 1.5rem 3rem; }
       .menu-grid { grid-template-columns: 1fr; }
+      .category-tabs { margin-top: -1rem; }
+      .tab-btn { padding: 0.6rem 1.2rem; font-size: 0.6rem; }
       .footer-grid { grid-template-columns: 1fr; }
       .info-bar { padding: 2rem 1.5rem; flex-direction: column; }
     }
@@ -624,11 +639,16 @@
     <a href="reservation.html" class="nav-btn">Réserver</a>
   </nav>
 
-  <section class="menu-header">
-    <div class="menu-badge">🍽️ EXCELLENCE GASTRONOMIQUE 🍷</div>
-    <h1>Notre <em>Menu</em></h1>
-    <div class="gold-divider"></div>
-    <p class="menu-sub">Une symphonie de saveurs créée par notre Chef Étoilé, chaque plat raconte une histoire unique</p>
+  <!-- Hero avec IMAGE RÉELLE -->
+  <section class="menu-hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-badge">🍽️ EXCELLENCE GASTRONOMIQUE 🍷</div>
+      <h1>Notre <em>Menu</em></h1>
+      <div class="gold-divider"></div>
+      <p>Une symphonie de saveurs créée par notre Chef Étoilé, chaque plat raconte une histoire unique</p>
+    </div>
   </section>
 
   <div class="category-tabs">
@@ -639,56 +659,55 @@
   </div>
 
   <div class="menu-container">
-
-    <!-- ENTRÉES -->
+    <!-- ENTRÉES SECTION -->
     <div class="category-section active" id="entrees">
       <h2 class="category-title">Entrées d'Exception</h2>
       <div class="menu-grid">
-        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Foie Gras"><div class="card-badge chef">CHEF'S CHOICE</div></div><div class="card-content"><div class="card-header"><h3>Foie Gras Poêlé</h3><span class="price">185 DH</span></div><p class="description">Foie gras frais poêlé, chutney de figues et miel, pain d'épices croustillant, fleur de sel de Guérande</p><div class="card-footer"><div class="allergens"><span>Œufs</span><span>Gluten</span><span>Lait</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
-        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/842571/pexels-photo-842571.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Saint-Jacques"><div class="card-badge hot">POPULAIRE</div></div><div class="card-content"><div class="card-header"><h3>Saint-Jacques Rôties</h3><span class="price">165 DH</span></div><p class="description">Noix de Saint-Jacques rôties, crème de potiron à la truffe noire, copeaux d'amandes torréfiées</p><div class="card-footer"><div class="allergens"><span>Fruits de mer</span><span>Lait</span><span>Noix</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
-        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Tartare Saumon"><div class="card-badge new">NOUVEAU</div></div><div class="card-content"><div class="card-header"><h3>Tartare de Saumon</h3><span class="price">145 DH</span></div><p class="description">Saumon frais coupé au couteau, avocat crémeux, mangue, sésame toasté, sauce yuzu maison</p><div class="card-footer"><div class="allergens"><span>Poisson</span><span>Sésame</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
-        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/260922/pexels-photo-260922.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Escargots"></div><div class="card-content"><div class="card-header"><h3>Escargots de Bourgogne</h3><span class="price">125 DH</span></div><p class="description">12 escargots au beurre persillé maison, ail confit, chapelure dorée, persil plat</p><div class="card-footer"><div class="allergens"><span>Ail</span><span>Gluten</span><span>Lait</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
-        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Burrata"></div><div class="card-content"><div class="card-header"><h3>Burrata Crémeuse</h3><span class="price">150 DH</span></div><p class="description">Burrata bio des Pouilles, tomates anciennes, pesto de basilic frais, réduction balsamique vieillie</p><div class="card-footer"><div class="allergens"><span>Lait</span><span>Noix</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
-        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/699953/pexels-photo-699953.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Carpaccio"><div class="card-badge chef">SIGNATURE</div></div><div class="card-content"><div class="card-header"><h3>Carpaccio de Bœuf</h3><span class="price">160 DH</span></div><p class="description">Carpaccio de bœuf façon Wagyu, parmesan 36 mois, roquette, citron truffé, huile d'olive</p><div class="card-footer"><div class="allergens"><span>Lait</span><span>Moutarde</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal-scale"><div class="card-image"><img src="https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Foie Gras"><div class="card-badge chef">CHEF'S CHOICE</div><div class="card-overlay"></div></div><div class="card-content"><div class="card-header"><h3>Foie Gras Poêlé</h3><span class="price">185 DH</span></div><p class="description">Foie gras frais poêlé, chutney de figues et miel, pain d'épices croustillant, fleur de sel de Guérande</p><div class="card-footer"><div class="allergens"><span>Œufs</span><span>Gluten</span><span>Lait</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal-scale"><div class="card-image"><img src="https://images.pexels.com/photos/842571/pexels-photo-842571.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Saint-Jacques"><div class="card-badge hot">POPULAIRE</div><div class="card-overlay"></div></div><div class="card-content"><div class="card-header"><h3>Saint-Jacques Rôties</h3><span class="price">165 DH</span></div><p class="description">Noix de Saint-Jacques rôties, crème de potiron à la truffe noire, copeaux d'amandes torréfiées</p><div class="card-footer"><div class="allergens"><span>Fruits de mer</span><span>Lait</span><span>Noix</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal-scale"><div class="card-image"><img src="https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Tartare Saumon"><div class="card-badge new">NOUVEAU</div><div class="card-overlay"></div></div><div class="card-content"><div class="card-header"><h3>Tartare de Saumon</h3><span class="price">145 DH</span></div><p class="description">Saumon frais coupé au couteau, avocat crémeux, mangue, sésame toasté, sauce yuzu maison</p><div class="card-footer"><div class="allergens"><span>Poisson</span><span>Sésame</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal-scale"><div class="card-image"><img src="https://images.pexels.com/photos/260922/pexels-photo-260922.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Escargots"><div class="card-overlay"></div></div><div class="card-content"><div class="card-header"><h3>Escargots de Bourgogne</h3><span class="price">125 DH</span></div><p class="description">12 escargots au beurre persillé maison, ail confit, chapelure dorée, persil plat</p><div class="card-footer"><div class="allergens"><span>Ail</span><span>Gluten</span><span>Lait</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal-scale"><div class="card-image"><img src="https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Burrata"><div class="card-overlay"></div></div><div class="card-content"><div class="card-header"><h3>Burrata Crémeuse</h3><span class="price">150 DH</span></div><p class="description">Burrata bio des Pouilles, tomates anciennes, pesto de basilic frais, réduction balsamique vieillie</p><div class="card-footer"><div class="allergens"><span>Lait</span><span>Noix</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal-scale"><div class="card-image"><img src="https://images.pexels.com/photos/699953/pexels-photo-699953.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Carpaccio"><div class="card-badge chef">SIGNATURE</div><div class="card-overlay"></div></div><div class="card-content"><div class="card-header"><h3>Carpaccio de Bœuf</h3><span class="price">160 DH</span></div><p class="description">Carpaccio de bœuf façon Wagyu, parmesan 36 mois, roquette, citron truffé, huile d'olive</p><div class="card-footer"><div class="allergens"><span>Lait</span><span>Moutarde</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
       </div>
     </div>
 
-    <!-- PLATS -->
+    <!-- PLATS PRINCIPAUX SECTION -->
     <div class="category-section" id="plats">
       <h2 class="category-title">Plats Principaux</h2>
       <div class="menu-grid">
-        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/3186654/pexels-photo-3186654.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Wagyu"><div class="card-badge chef">CHEF'S CHOICE</div></div><div class="card-content"><div class="card-header"><h3>Filet de Bœuf Wagyu</h3><span class="price">350 DH</span></div><p class="description">Filet de bœuf japonais A5, sauce périgueux, purée de pommes de terre truffée, légumes rôtis</p><div class="card-footer"><div class="allergens"><span>Lait</span><span>Gluten</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
-        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/2606897/pexels-photo-2606897.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Canard"></div><div class="card-content"><div class="card-header"><h3>Magret de Canard</h3><span class="price">240 DH</span></div><p class="description">Magret de canard rôti, sauce au miel de lavande et épices, pommes grenailles confites</p><div class="card-footer"><div class="allergens"><span>Miel</span><span>Moutarde</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
-        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Bar"><div class="card-badge hot">POPULAIRE</div></div><div class="card-content"><div class="card-header"><h3>Bar en Croûte</h3><span class="price">210 DH</span></div><p class="description">Bar entier en croûte de sel, écrasé de pommes de terre à l'huile d'olive, beurre blanc safrané</p><div class="card-footer"><div class="allergens"><span>Poisson</span><span>Gluten</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
-        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/1322184/pexels-photo-1322184.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Agneau"></div><div class="card-content"><div class="card-header"><h3>Carré d'Agneau</h3><span class="price">265 DH</span></div><p class="description">Carré d'agneau de lait rôti, crumble d'herbes, tian de légumes provençal, jus corsé</p><div class="card-footer"><div class="allergens"><span>Ail</span><span>Moutarde</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
-        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/262918/pexels-photo-262918.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Risotto"><div class="card-badge veg">VÉGÉTARIEN</div></div><div class="card-content"><div class="card-header"><h3>Risotto aux Truffes</h3><span class="price">195 DH</span></div><p class="description">Risotto crémeux aux champignons des bois, truffe noire râpée, parmesan 36 mois d'affinage</p><div class="card-footer"><div class="allergens"><span>Lait</span><span>Gluten</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
-        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/4033608/pexels-photo-4033608.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Lotte"></div><div class="card-content"><div class="card-header"><h3>Queue de Lotte</h3><span class="price">225 DH</span></div><p class="description">Queue de lotte rôtie, sauce champagne, purée de céleri-rave, tuile croustillante au sésame</p><div class="card-footer"><div class="allergens"><span>Poisson</span><span>Lait</span><span>Œufs</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal-scale"><div class="card-image"><img src="https://images.pexels.com/photos/3186654/pexels-photo-3186654.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Wagyu"><div class="card-badge chef">CHEF'S CHOICE</div><div class="card-overlay"></div></div><div class="card-content"><div class="card-header"><h3>Filet de Bœuf Wagyu</h3><span class="price">350 DH</span></div><p class="description">Filet de bœuf japonais A5, sauce périgueux, purée de pommes de terre truffée, légumes rôtis</p><div class="card-footer"><div class="allergens"><span>Lait</span><span>Gluten</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal-scale"><div class="card-image"><img src="https://images.pexels.com/photos/2606897/pexels-photo-2606897.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Canard"><div class="card-overlay"></div></div><div class="card-content"><div class="card-header"><h3>Magret de Canard</h3><span class="price">240 DH</span></div><p class="description">Magret de canard rôti, sauce au miel de lavande et épices, pommes grenailles confites</p><div class="card-footer"><div class="allergens"><span>Miel</span><span>Moutarde</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal-scale"><div class="card-image"><img src="https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Bar"><div class="card-badge hot">POPULAIRE</div><div class="card-overlay"></div></div><div class="card-content"><div class="card-header"><h3>Bar en Croûte</h3><span class="price">210 DH</span></div><p class="description">Bar entier en croûte de sel, écrasé de pommes de terre à l'huile d'olive, beurre blanc safrané</p><div class="card-footer"><div class="allergens"><span>Poisson</span><span>Gluten</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal-scale"><div class="card-image"><img src="https://images.pexels.com/photos/1322184/pexels-photo-1322184.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Agneau"><div class="card-overlay"></div></div><div class="card-content"><div class="card-header"><h3>Carré d'Agneau</h3><span class="price">265 DH</span></div><p class="description">Carré d'agneau de lait rôti, crumble d'herbes, tian de légumes provençal, jus corsé</p><div class="card-footer"><div class="allergens"><span>Ail</span><span>Moutarde</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal-scale"><div class="card-image"><img src="https://images.pexels.com/photos/262918/pexels-photo-262918.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Risotto"><div class="card-badge veg">VÉGÉTARIEN</div><div class="card-overlay"></div></div><div class="card-content"><div class="card-header"><h3>Risotto aux Truffes</h3><span class="price">195 DH</span></div><p class="description">Risotto crémeux aux champignons des bois, truffe noire râpée, parmesan 36 mois d'affinage</p><div class="card-footer"><div class="allergens"><span>Lait</span><span>Gluten</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal-scale"><div class="card-image"><img src="https://images.pexels.com/photos/4033608/pexels-photo-4033608.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Lotte"><div class="card-overlay"></div></div><div class="card-content"><div class="card-header"><h3>Queue de Lotte</h3><span class="price">225 DH</span></div><p class="description">Queue de lotte rôtie, sauce champagne, purée de céleri-rave, tuile croustillante au sésame</p><div class="card-footer"><div class="allergens"><span>Poisson</span><span>Lait</span><span>Œufs</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
       </div>
     </div>
 
-    <!-- DESSERTS -->
+    <!-- DESSERTS SECTION -->
     <div class="category-section" id="desserts">
       <h2 class="category-title">Desserts Exquis</h2>
       <div class="menu-grid">
-        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/3020919/pexels-photo-3020919.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Soufflé"><div class="card-badge chef">SIGNATURE</div></div><div class="card-content"><div class="card-header"><h3>Soufflé Grand Marnier</h3><span class="price">110 DH</span></div><p class="description">Soufflé aérien au Grand Marnier, crème anglaise à la vanille de Madagascar</p><div class="card-footer"><div class="allergens"><span>Œufs</span><span>Lait</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
-        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/1854652/pexels-photo-1854652.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Fondant"></div><div class="card-content"><div class="card-header"><h3>Fondant au Chocolat</h3><span class="price">95 DH</span></div><p class="description">Cœur coulant au chocolat noir 70% Guanaja, glace vanille maison, éclats de noisettes caramélisées</p><div class="card-footer"><div class="allergens"><span>Œufs</span><span>Lait</span><span>Noisettes</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
-        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/3020918/pexels-photo-3020918.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Île Flottante"></div><div class="card-content"><div class="card-header"><h3>Île Flottante</h3><span class="price">85 DH</span></div><p class="description">Meringue légère, crème anglaise à la vanille Bourbon, caramel beurre salé, amandes effilées</p><div class="card-footer"><div class="allergens"><span>Œufs</span><span>Lait</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
-        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/1099680/pexels-photo-1099680.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Tarte Tatin"><div class="card-badge hot">POPULAIRE</div></div><div class="card-content"><div class="card-header"><h3>Tarte Tatin</h3><span class="price">90 DH</span></div><p class="description">Tarte renversée aux pommes caramélisées, glace vanille, crème fraîche épaisse</p><div class="card-footer"><div class="allergens"><span>Gluten</span><span>Lait</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
-        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Millefeuille"></div><div class="card-content"><div class="card-header"><h3>Millefeuille Vanille</h3><span class="price">100 DH</span></div><p class="description">Pâte feuilletée croustillante, crème pâtissière à la vanille, sucre glace, framboises fraîches</p><div class="card-footer"><div class="allergens"><span>Gluten</span><span>Lait</span><span>Œufs</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
-        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/1114681/pexels-photo-1114681.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Crème Brûlée"><div class="card-badge new">NOUVEAU</div></div><div class="card-content"><div class="card-header"><h3>Crème Brûlée</h3><span class="price">90 DH</span></div><p class="description">Crème onctueuse à la vanille, caramel croustillant, fruits rouges et coulis de passion</p><div class="card-footer"><div class="allergens"><span>Lait</span><span>Œufs</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal-scale"><div class="card-image"><img src="https://images.pexels.com/photos/3020919/pexels-photo-3020919.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Soufflé"><div class="card-badge chef">SIGNATURE</div><div class="card-overlay"></div></div><div class="card-content"><div class="card-header"><h3>Soufflé Grand Marnier</h3><span class="price">110 DH</span></div><p class="description">Soufflé aérien au Grand Marnier, crème anglaise à la vanille de Madagascar</p><div class="card-footer"><div class="allergens"><span>Œufs</span><span>Lait</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal-scale"><div class="card-image"><img src="https://images.pexels.com/photos/1854652/pexels-photo-1854652.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Fondant"><div class="card-overlay"></div></div><div class="card-content"><div class="card-header"><h3>Fondant au Chocolat</h3><span class="price">95 DH</span></div><p class="description">Cœur coulant au chocolat noir 70% Guanaja, glace vanille maison, éclats de noisettes caramélisées</p><div class="card-footer"><div class="allergens"><span>Œufs</span><span>Lait</span><span>Noisettes</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal-scale"><div class="card-image"><img src="https://images.pexels.com/photos/3020918/pexels-photo-3020918.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Île Flottante"><div class="card-overlay"></div></div><div class="card-content"><div class="card-header"><h3>Île Flottante</h3><span class="price">85 DH</span></div><p class="description">Meringue légère, crème anglaise à la vanille Bourbon, caramel beurre salé, amandes effilées</p><div class="card-footer"><div class="allergens"><span>Œufs</span><span>Lait</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal-scale"><div class="card-image"><img src="https://images.pexels.com/photos/1099680/pexels-photo-1099680.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Tarte Tatin"><div class="card-badge hot">POPULAIRE</div><div class="card-overlay"></div></div><div class="card-content"><div class="card-header"><h3>Tarte Tatin</h3><span class="price">90 DH</span></div><p class="description">Tarte renversée aux pommes caramélisées, glace vanille, crème fraîche épaisse</p><div class="card-footer"><div class="allergens"><span>Gluten</span><span>Lait</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal-scale"><div class="card-image"><img src="https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Millefeuille"><div class="card-overlay"></div></div><div class="card-content"><div class="card-header"><h3>Millefeuille Vanille</h3><span class="price">100 DH</span></div><p class="description">Pâte feuilletée croustillante, crème pâtissière à la vanille, sucre glace, framboises fraîches</p><div class="card-footer"><div class="allergens"><span>Gluten</span><span>Lait</span><span>Œufs</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal-scale"><div class="card-image"><img src="https://images.pexels.com/photos/1114681/pexels-photo-1114681.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Crème Brûlée"><div class="card-badge new">NOUVEAU</div><div class="card-overlay"></div></div><div class="card-content"><div class="card-header"><h3>Crème Brûlée</h3><span class="price">90 DH</span></div><p class="description">Crème onctueuse à la vanille, caramel croustillant, fruits rouges et coulis de passion</p><div class="card-footer"><div class="allergens"><span>Lait</span><span>Œufs</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
       </div>
     </div>
 
-    <!-- BOISSONS -->
+    <!-- BOISSONS SECTION -->
     <div class="category-section" id="boissons">
       <h2 class="category-title">Cave & Mixologie</h2>
       <div class="menu-grid">
-        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/1283219/pexels-photo-1283219.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Champagne"></div><div class="card-content"><div class="card-header"><h3>Champagne Brut</h3><span class="price">140 DH</span></div><p class="description">Moët & Chandon Impérial, notes d'agrumes, de brioche et de pomme verte</p><div class="card-footer"><div class="allergens"><span>Sulfites</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
-        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/543525/pexels-photo-543525.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Vin Rouge"><div class="card-badge chef">GRAND CRU</div></div><div class="card-content"><div class="card-header"><h3>Château Margaux</h3><span class="price">550 DH</span></div><p class="description">Grand cru classé 2015, arômes de fruits noirs, de réglisse et d'épices douces</p><div class="card-footer"><div class="allergens"><span>Sulfites</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
-        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/1283240/pexels-photo-1283240.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Vin Blanc"></div><div class="card-content"><div class="card-header"><h3>Sancerre Blanc</h3><span class="price">220 DH</span></div><p class="description">Vin minéral et frais, arômes d'agrumes, de fleurs blanches et de pierre à fusil</p><div class="card-footer"><div class="allergens"><span>Sulfites</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
-        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/1283241/pexels-photo-1283241.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Cocktail"></div><div class="card-content"><div class="card-header"><h3>Signature Cocktail</h3><span class="price">110 DH</span></div><p class="description">Gin artisanal, fleur de sureau, concombre, citron vert, eau pétillante, glaçon</p><div class="card-footer"><div class="allergens"><span>Alcool</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
-        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/1248585/pexels-photo-1248585.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Jus"></div><div class="card-content"><div class="card-header"><h3>Jus Détox Maison</h3><span class="price">55 DH</span></div><p class="description">Carotte, gingembre frais, orange sanguine, curcuma, miel d'acacia</p><div class="card-footer"><div class="allergens"><span>Sans allergènes</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
-        <div class="menu-card reveal"><div class="card-image"><img src="https://images.pexels.com/photos/1298694/pexels-photo-1298694.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Thé"></div><div class="card-content"><div class="card-header"><h3>Thé Grand Cru</h3><span class="price">45 DH</span></div><p class="description">Thé noir de Ceylan, bergamote, pétales de fleurs, oranges confites</p><div class="card-footer"><div class="allergens"><span>Sans allergènes</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal-scale"><div class="card-image"><img src="https://images.pexels.com/photos/1283219/pexels-photo-1283219.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Champagne"><div class="card-overlay"></div></div><div class="card-content"><div class="card-header"><h3>Champagne Brut</h3><span class="price">140 DH</span></div><p class="description">Moët & Chandon Impérial, notes d'agrumes, de brioche et de pomme verte</p><div class="card-footer"><div class="allergens"><span>Sulfites</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal-scale"><div class="card-image"><img src="https://images.pexels.com/photos/543525/pexels-photo-543525.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Vin Rouge"><div class="card-badge chef">GRAND CRU</div><div class="card-overlay"></div></div><div class="card-content"><div class="card-header"><h3>Château Margaux</h3><span class="price">550 DH</span></div><p class="description">Grand cru classé 2015, arômes de fruits noirs, de réglisse et d'épices douces</p><div class="card-footer"><div class="allergens"><span>Sulfites</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal-scale"><div class="card-image"><img src="https://images.pexels.com/photos/1283240/pexels-photo-1283240.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Vin Blanc"><div class="card-overlay"></div></div><div class="card-content"><div class="card-header"><h3>Sancerre Blanc</h3><span class="price">220 DH</span></div><p class="description">Vin minéral et frais, arômes d'agrumes, de fleurs blanches et de pierre à fusil</p><div class="card-footer"><div class="allergens"><span>Sulfites</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal-scale"><div class="card-image"><img src="https://images.pexels.com/photos/1283241/pexels-photo-1283241.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Cocktail"><div class="card-overlay"></div></div><div class="card-content"><div class="card-header"><h3>Signature Cocktail</h3><span class="price">110 DH</span></div><p class="description">Gin artisanal, fleur de sureau, concombre, citron vert, eau pétillante, glaçon</p><div class="card-footer"><div class="allergens"><span>Alcool</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal-scale"><div class="card-image"><img src="https://images.pexels.com/photos/1248585/pexels-photo-1248585.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Jus"><div class="card-overlay"></div></div><div class="card-content"><div class="card-header"><h3>Jus Détox Maison</h3><span class="price">55 DH</span></div><p class="description">Carotte, gingembre frais, orange sanguine, curcuma, miel d'acacia</p><div class="card-footer"><div class="allergens"><span>Sans allergènes</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
+        <div class="menu-card reveal-scale"><div class="card-image"><img src="https://images.pexels.com/photos/1298694/pexels-photo-1298694.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Thé"><div class="card-overlay"></div></div><div class="card-content"><div class="card-header"><h3>Thé Grand Cru</h3><span class="price">45 DH</span></div><p class="description">Thé noir de Ceylan, bergamote, pétales de fleurs, oranges confites</p><div class="card-footer"><div class="allergens"><span>Sans allergènes</span></div><button class="order-btn" onclick="location.href='reservation.html'">RÉSERVER</button></div></div></div>
       </div>
     </div>
   </div>
@@ -756,7 +775,7 @@
       });
     });
 
-    const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+    const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
     const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: 0.1 });
     revealElements.forEach(el => observer.observe(el));
   </script>
